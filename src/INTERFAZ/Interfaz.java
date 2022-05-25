@@ -9,7 +9,9 @@ package INTERFAZ;
  * @author chuy4
  */
 public class Interfaz extends javax.swing.JFrame {
-
+    
+    
+    
     /**
      * Creates new form Interfaz
      */
@@ -221,6 +223,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu2);
 
+        jMenu4.setForeground(new java.awt.Color(255, 255, 255));
         jMenu4.setText("Acerca de");
 
         btnMenuLEATE.setText("Sobre M4TH3C");
