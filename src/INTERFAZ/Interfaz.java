@@ -142,7 +142,27 @@ public class Interfaz extends javax.swing.JFrame {
     }
     
     private void lexicalAnalysis(){
-    
+        // Extraer tokens
+        Lexer lexer;
+        try {
+            File codigo = new File("code.encrypter");
+            FileOutputStream output = new FileOutputStream(codigo);
+            byte[] bytesText = PanelFuente.getText().getBytes();
+            output.write(bytesText);
+            BufferedReader entrada = new BufferedReader(new InputStreamReader(new FileInputStream(codigo), "UTF8"));
+            lexer = new Lexer(entrada);
+            while (true) {
+                Token token = lexer.yylex();
+                if (token == null) {
+                    break;
+                }
+                tokens.add(token);
+            }
+        } catch (FileNotFoundException ex) {
+            System.out.println("El archivo no pudo ser encontrado... " + ex.getMessage());
+        } catch (IOException ex) {
+            System.out.println("Error al escribir en el archivo... " + ex.getMessage());
+        }
     }
     
     private void fillTableTokens(){
@@ -277,6 +297,7 @@ public class Interfaz extends javax.swing.JFrame {
         });
         jToolBar1.add(jButton6);
 
+        PanelFuente.setBackground(new java.awt.Color(204, 204, 204));
         jScrollPane1.setViewportView(PanelFuente);
 
         PanelSalida.setColumns(20);
@@ -465,9 +486,8 @@ public class Interfaz extends javax.swing.JFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         if (getTitle().contains("*") || getTitle().equals(title)) {
             if(directorio.Save()){
-                g.guardar(title);
+                compilar();
             }
-            compilar();
         } else {
             compilar();
         }

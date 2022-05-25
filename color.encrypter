@@ -1,0 +1,10 @@
+Metodo &Hola {
+
+       Entero Va1 = 23;
+	Resultado #r1;
+      Entero Va2 = 34;
+      Sumar(Va1,Va2)<
+	#r1;
+>;
+
+}

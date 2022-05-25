@@ -25,27 +25,28 @@ Simbolo = [ .,=()<>#{}+-;:&]
 Asignacion = [=]
 Delimitador = [;]
 Operador = [+-]
-Sumar = [Sumar]
-Restar = [Restar]
-Multiplicar = [Multiplicar] 
-Dividir = [Dividir]
-Entero = [Entero]
-Decimal = [Decimal]
-Resultado = [Resultado]
-Cadena = [Cadena]
-Figura = [Figura]
-Color = [Color]
-Mostrar = [Mostrar]
-Rojo = [Rojo]
-Azul = [Azul]
-Verde = [Verde]
-Blanco = [Blanco]
-Negro = [Negro]
-Cuadrado = [Cuadrado]
-Triangulo = [Triangulo]
-Rectangulo = [Rectangulo]
-Rombo = [Rombo]
-Metedo = [Metodo]
+Sumar = [S][u][m][a][r]
+Restar = [R][e][s][t][a][r]
+Multiplicar = [M][u][l][t][i][p][l][i][c][a][r] 
+Dividir = [D][i][v][i][d][i][r]
+Entero = [E][n][t][e][r][o]
+Decimal = [D][e][c][i][m][a][l]
+Resultado = [R][e][s][u][l][t][a][d][o]
+Cadena = [C][a][d][e][n][a]
+Figura = [F][i][g][u][r][a]
+Color = [C][o][l][o][r]
+Mostrar = [M][o][s][t][r][a][r]
+Rojo = [R][o][j][o]
+Azul = [A][z][u][l]
+Verde = [V][e][r][d][e]
+Blanco = [B][l][a][n][c][o]
+Negro = [N][e][g][r][o]
+Cuadrado = [C][u][a][d][r][a][d][o]
+Triangulo = [T][r][i][a][n][g][u][l][o]
+Rectangulo = [R][e][c][t][a][n][g][u][l][o]
+Rombo = [R][o][m][b][o]
+Metedo = [M][e][t][o][d][o]
+Enter = [\r|\n|\r\n]
 
 /*Identificador*/
 
@@ -87,7 +88,7 @@ PalabraReservada = ({Sumar}|{Restar}|{Multiplicar}|{Dividir}|{Entero}|{Decimal}|
 %%
 
 {Espacio} {/*Ignorar*/}
-
+{Enter} {/*Ignorar*/}
 {IdentificadorVariable} { return token(yytext(), "Identificador", yyline, yycolumn); }
 {IdentificadorCadena} { return token(yytext(), "Identificador", yyline, yycolumn); }
 {IdentificadorResultado} { return token(yytext(), "Identificador", yyline, yycolumn); }
@@ -98,6 +99,6 @@ PalabraReservada = ({Sumar}|{Restar}|{Multiplicar}|{Dividir}|{Entero}|{Decimal}|
 {OperadorDeAsignacion} { return token(yytext(), "Operador De Asignacion", yyline, yycolumn); }
 {SignoDelimitadorDeSentencia} { return token(yytext(), "Signo Delimitador De Sentencia", yyline, yycolumn); }
 {OperadorAritmetico} { return token(yytext(), "Operador Aritmetico", yyline, yycolumn); }
-{PalabraReservada} { return token(yytext(), "Palabra Reservada", yyline, yycolumn); }
+{Sumar} { return token(yytext(), "Palabra Reservada", yyline, yycolumn); }
 
 . { return token(yytext(), "ERROR", yyline, yycolumn); }
