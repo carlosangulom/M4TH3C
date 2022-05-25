@@ -26,10 +26,10 @@ Reservada1
 
 /*Identificador*/
 
-Identificador Variable = {Letra} ({Letra}|{Digito})*
-Identificador Cadena = {Comilla}({Letra}|{Digito}|{Simbolo})({Letra}|{Digito}|{Simbolo})*{Comilla}
-Identificador Resultado = {Gato}{Letra}({Letra}|{Digito})*
-Identificador Metodo = {Ampersen}{Letra}({Letra}|{Digito})*
+Identificador = {Letra} ({Letra}|{Digito})*
+Identificador = {Comilla}({Letra}|{Digito}|{Simbolo})({Letra}|{Digito}|{Simbolo})*{Comilla}
+Identificador = {Gato}{Letra}({Letra}|{Digito})*
+Identificador = {Ampersen}{Letra}({Letra}|{Digito})*
 
 /*Signo de agrupacion*/
 
