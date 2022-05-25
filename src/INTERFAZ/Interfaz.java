@@ -34,7 +34,6 @@ public class Interfaz extends javax.swing.JFrame {
     
     Guardar g = new Guardar();
     private String title;
-    private Directory directorio;
     private ArrayList<Token> tokens;
     private ArrayList<ErrorLSSL> errors;
     private ArrayList<TextColor> textsColor;
@@ -42,6 +41,7 @@ public class Interfaz extends javax.swing.JFrame {
     private ArrayList<Production> identProd;
     private HashMap<String, String> identificadores;
     private boolean codeHasBeenCompiled = false;
+    private Directory directorio;
     /**
      * Creates new form Interfaz
      */
@@ -51,11 +51,11 @@ public class Interfaz extends javax.swing.JFrame {
         this.setTitle("M4TH3C");
         this.setResizable(false);
         init();
-        cerrar();
     }
     
     private void init() {
-        directorio = new Directory(this, PanelFuente, title, ".mtc");
+        Functions.setLineNumberOnJTextComponent(PanelFuente);
+        directorio = new Directory(this, PanelFuente, title, ".MTC");
         addWindowListener(new WindowAdapter() {// Cuando presiona la "X" de la esquina superior derecha
             @Override
             public void windowClosing(WindowEvent e) {
@@ -63,10 +63,9 @@ public class Interfaz extends javax.swing.JFrame {
                 System.exit(0);
             }
         });
-        Functions.setLineNumberOnJTextComponent(PanelFuente);
         timerKeyReleased = new Timer((int) (1000 * 0.3), (ActionEvent e) -> {
             timerKeyReleased.stop();
-            //colorAnalysis();
+            colorAnalysis();
         });
         Functions.insertAsteriskInName(this, PanelFuente, () -> {
             timerKeyReleased.restart();
@@ -84,9 +83,26 @@ public class Interfaz extends javax.swing.JFrame {
             "Figura 'Nombre Variable';","Color 'Nombre Variable' = 'Valor';","Color 'Nombre Variable';",
             "Mostrar(‘Variable Cadena’ , ‘Variable Resultado’ , ‘Variable Figura’ , ‘Variable Color’);","Mostrar(‘Variable Cadena’ , ‘Variable Resultado’ , "
                     + "‘Variable Figura 1’ , ‘Variable Color 1’, ‘Variable Figura 2’ , ‘Variable Color 2’, ‘Variable Figura 3’ , ‘Variable Color 3, ‘Variable Figura 4’ , "
-                    + "‘Variable Color 4’, ‘Variable Figura 5’ , ‘Variable Color 5);","Metodo 'Nombre Metodo' {\n\n      'Funciones o Variables'\n}"}, PanelFuente, () -> {
+                    + "‘Variable Color 4’, ‘Variable Figura 5’ , ‘Variable Color 5);","Metodo 'Nombre Metodo' {\n\n      'Funciones o Variables'\n\n}"}, PanelFuente, () -> {
             timerKeyReleased.restart();
         });
+    }
+    
+    private void clearFields(){
+        
+        tokens.clear();
+        errors.clear();
+        identProd.clear();
+        identificadores.clear();
+        codeHasBeenCompiled = false;
+    }
+    
+    private void colorAnalysis(){
+    
+    }
+    
+    private void compilar(){
+        clearFields();
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -120,7 +136,6 @@ public class Interfaz extends javax.swing.JFrame {
         btnmenuGuardar = new javax.swing.JMenuItem();
         btnmenuGuardarComo = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        btnMenuSalir = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem8 = new javax.swing.JMenuItem();
         jSeparator4 = new javax.swing.JPopupMenu.Separator();
@@ -304,14 +319,6 @@ public class Interfaz extends javax.swing.JFrame {
         jMenu1.add(btnmenuGuardarComo);
         jMenu1.add(jSeparator1);
 
-        btnMenuSalir.setText("Salir");
-        btnMenuSalir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMenuSalirActionPerformed(evt);
-            }
-        });
-        jMenu1.add(btnMenuSalir);
-
         jMenuBar1.add(jMenu1);
 
         jMenu2.setForeground(new java.awt.Color(255, 255, 255));
@@ -355,67 +362,28 @@ public class Interfaz extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnmenuNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmenuNuevoActionPerformed
-        if (PanelFuente.getText().isEmpty()) {
-            PanelFuente.setText("");
-            PanelSalida.setText("");
-            g.setURL("");
-        } else {
-            int num = JOptionPane.showConfirmDialog(null, "¿Deseas guardar el archivo?");
-            if (num == 0) {
-                g.guardar(PanelFuente.getText());
-                PanelFuente.setText("");
-                g.setURL("");
-                JOptionPane.showMessageDialog(null, "Guardado con exito");
-            } else if (num == 1) {
-                PanelFuente.setText("");
-                PanelSalida.setText("");
-                g.setURL("");
-            }
-        }
+        directorio.New();
+        clearFields();
     }//GEN-LAST:event_btnmenuNuevoActionPerformed
 
     private void btnmenuAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmenuAbrirActionPerformed
-        if (PanelFuente.getText().isEmpty()) {
-            abrirsintexto();
-        } else {
-            int num = JOptionPane.showConfirmDialog(null, "¿Deseas guardar el archivo antes de abrir uno nuevo?");
-            if (num == 0) {
-                g.guardar(PanelFuente.getText());
-                PanelFuente.setText("");
-                g.setURL("");
-                JOptionPane.showMessageDialog(null, "Guardado con exito");
-                abrirsintexto();
-            } else if (num == 1) {
-                PanelFuente.setText("");
-                PanelSalida.setText("");
-                g.setURL("");
-                abrirsintexto();
-            }
+        if (directorio.Open()) {
+            colorAnalysis();
+            clearFields();
         }
     }//GEN-LAST:event_btnmenuAbrirActionPerformed
 
     private void btnmenuGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmenuGuardarActionPerformed
-        g.guardar(PanelFuente.getText());
+        if (directorio.Save()) {
+            clearFields();
+        }
     }//GEN-LAST:event_btnmenuGuardarActionPerformed
 
     private void btnmenuGuardarComoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmenuGuardarComoActionPerformed
-        g.guardarComo(PanelFuente.getText());
-    }//GEN-LAST:event_btnmenuGuardarComoActionPerformed
-
-    private void btnMenuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuSalirActionPerformed
-        //validar antes de salir
-        if (PanelFuente.getText().isEmpty()) {
-            dispose();
-        } else {
-            int num = JOptionPane.showConfirmDialog(null, "¿Deseas guardar el archivo antes de salir?");
-            if (num == 0) {
-                g.guardar(PanelFuente.getText());
-                System.exit(0);
-            } else if (num == 1) {
-                System.exit(0);
-            }
+        if (directorio.SaveAs()) {
+            clearFields();
         }
-    }//GEN-LAST:event_btnMenuSalirActionPerformed
+    }//GEN-LAST:event_btnmenuGuardarComoActionPerformed
 
     private void btnMenuLEATEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuLEATEActionPerformed
         AcercaDe ac = new AcercaDe();
@@ -427,117 +395,40 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if (PanelFuente.getText().isEmpty()) {
-            abrirsintexto();
-        } else {
-            int num = JOptionPane.showConfirmDialog(null, "¿Deseas guardar el archivo antes de abrir uno nuevo?");
-            if (num == 0) {
-                g.guardar(PanelFuente.getText());
-                PanelFuente.setText("");
-                g.setURL("");
-                JOptionPane.showMessageDialog(null, "Guardado con exito");
-                abrirsintexto();
-            } else if (num == 1) {
-                PanelFuente.setText("");
-                PanelSalida.setText("");
-                g.setURL("");
-                abrirsintexto();
-            }
+        if (directorio.Open()) {
+            colorAnalysis();
+            clearFields();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-       
+        if (getTitle().contains("*") || getTitle().equals(title)) {
+            if(directorio.Save()){
+                g.guardar(title);
+            }
+            compilar();
+        } else {
+            compilar();
+        }
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        //validar si el panel esta vacio antes de crear un nuevo archivo
-        if (PanelFuente.getText().isEmpty()) {
-            PanelFuente.setText("");
-            PanelSalida.setText("");
-            g.setURL("");
-        } else {
-            int num = JOptionPane.showConfirmDialog(null, "¿Deseas guardar el archivo?");
-            if (num == 0) {
-                g.guardar(PanelFuente.getText());
-                PanelFuente.setText("");
-                g.setURL("");
-                JOptionPane.showMessageDialog(null, "Guardado con exito");
-            } else if (num == 1) {
-                PanelFuente.setText("");
-                PanelSalida.setText("");
-                g.setURL("");
-            }
-        }
+        directorio.New();
+        clearFields();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        g.guardar(PanelFuente.getText());
+        if (directorio.Save()) {
+            clearFields();
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        g.guardarComo(PanelFuente.getText());
+        if (directorio.SaveAs()) {
+            clearFields();
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    public void abrirsintexto() {
-        //Metodo si no hay texto en el panel fuente para el boton abrir
-        JFileChooser abrir = new JFileChooser();
-        FileFilter filtro = new FileNameExtensionFilter("Archivos de texto (.txt)", "txt");
-        abrir.setFileFilter(filtro);
-        abrir.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-
-        try {
-            int num = abrir.showOpenDialog(this);
-            if (num == 0) {
-                File archivo = abrir.getSelectedFile();
-                URL = archivo.toString();
-
-                BufferedReader br = new BufferedReader(new FileReader(URL));
-
-                String l = "";
-                String aux = "";
-
-                while (true) {
-                    aux = br.readLine();
-                    if (aux != null) {
-                        l = l + aux + "\n";
-                    } else {
-                        break;
-                    }
-                }
-                PanelFuente.setText(l);
-                br.close();
-                g.setURL(URL);
-            } else {
-                JOptionPane.showMessageDialog(this, "No se selecciono ningun archivo");
-            }
-        } catch (Exception ex) { //FileNotFoundException
-            JOptionPane.showMessageDialog(this, "No se selecciono ningun archivo");
-        }
-    }
-    public void cerrar() {
-        //Validar cierre del programa para la X
-        try {
-            this.setDefaultCloseOperation(Interfaz.DO_NOTHING_ON_CLOSE);
-            addWindowListener(new WindowAdapter() {
-                public void windowClosing(WindowEvent e) {
-                    if (PanelFuente.getText().isEmpty()) {
-                        System.exit(0);
-                    } else {
-                        int num = JOptionPane.showConfirmDialog(null, "¿Deseas guardar el archivo antes de salir?");
-                        if (num == 0) {
-                            g.guardar(PanelFuente.getText());
-                            System.exit(0);
-                        } else if (num == 1) {
-                            System.exit(0);
-                        }
-                    }
-                }
-            });
-            this.setVisible(true);
-        } catch (Exception e) {
-        }
-    }
     /**
      * @param args the command line arguments
      */
@@ -548,7 +439,6 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JTextPane PanelFuente;
     private javax.swing.JTextArea PanelSalida;
     private javax.swing.JMenuItem btnMenuLEATE;
-    private javax.swing.JMenuItem btnMenuSalir;
     private javax.swing.JMenuItem btnmenuAbrir;
     private javax.swing.JMenuItem btnmenuGuardar;
     private javax.swing.JMenuItem btnmenuGuardarComo;
