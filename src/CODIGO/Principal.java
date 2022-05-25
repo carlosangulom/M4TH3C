@@ -5,15 +5,20 @@
 package CODIGO;
 
 import INTERFAZ.*;
-//import java.io.File;
-/**
- *
+import java.io.*;
+import jflex.exceptions.SilentExit;
+ /*
  * @author Carlos
  */
 public class Principal {
     public static void main(String[] args) {
-        //jflex.Main.generate(new File("src\\CODIGO\\lexer.flex"));
+        
         Interfaz main = new Interfaz();
         main.setVisible(true);
+    }
+    
+    public static void generateLexer(String ruta) throws SilentExit{
+        File file = new File(ruta, "lexer");
+        jflex.Main.generate(file.list());
     }
 }
