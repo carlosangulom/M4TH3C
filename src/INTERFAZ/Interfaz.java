@@ -4,13 +4,24 @@
  */
 package INTERFAZ;
 
+import CODIGO.Guardar;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.net.URL;
+import javax.swing.JFileChooser;
+
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 /**
  *
  * @author chuy4
  */
 public class Interfaz extends javax.swing.JFrame {
     
-    
+    Guardar g = new Guardar();
     
     /**
      * Creates new form Interfaz
@@ -40,9 +51,9 @@ public class Interfaz extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextPane1 = new javax.swing.JTextPane();
+        PanelFuente = new javax.swing.JTextPane();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        PanelSalida = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -71,6 +82,11 @@ public class Interfaz extends javax.swing.JFrame {
         jButton2.setFocusable(false);
         jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton2);
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGENES/Abrir select.png"))); // NOI18N
@@ -115,11 +131,11 @@ public class Interfaz extends javax.swing.JFrame {
         });
         jToolBar1.add(jButton6);
 
-        jScrollPane1.setViewportView(jTextPane1);
+        jScrollPane1.setViewportView(PanelFuente);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        PanelSalida.setColumns(20);
+        PanelSalida.setRows(5);
+        jScrollPane2.setViewportView(PanelSalida);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -291,18 +307,95 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        if (PanelFuente.getText().isEmpty()) {
+            abrirsintexto();
+        } else {
+            int num = JOptionPane.showConfirmDialog(null, "¿Deseas guardar el archivo antes de abrir uno nuevo?");
+            if (num == 0) {
+                g.guardar(PanelFuente.getText());
+                PanelFuente.setText("");
+                g.setURL("");
+                JOptionPane.showMessageDialog(null, "Guardado con exito");
+                abrirsintexto();
+            } else if (num == 1) {
+                PanelFuente.setText("");
+                PanelSalida.setText("");
+                g.setURL("");
+                abrirsintexto();
+            }
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
        
     }//GEN-LAST:event_jButton6ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        //validar si el panel esta vacio antes de crear un nuevo archivo
+        if (PanelFuente.getText().isEmpty()) {
+            PanelFuente.setText("");
+            PanelSalida.setText("");
+            g.setURL("");
+        } else {
+            int num = JOptionPane.showConfirmDialog(null, "¿Deseas guardar el archivo?");
+            if (num == 0) {
+                g.guardar(PanelFuente.getText());
+                PanelFuente.setText("");
+                g.setURL("");
+                JOptionPane.showMessageDialog(null, "Guardado con exito");
+            } else if (num == 1) {
+                PanelFuente.setText("");
+                PanelSalida.setText("");
+                g.setURL("");
+            }
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    public void abrirsintexto() {
+        //Metodo si no hay texto en el panel fuente para el boton abrir
+        JFileChooser abrir = new JFileChooser();
+        FileFilter filtro = new FileNameExtensionFilter("Archivos de texto (.txt)", "txt");
+        abrir.setFileFilter(filtro);
+        abrir.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+
+        try {
+            int num = abrir.showOpenDialog(this);
+            if (num == 0) {
+                File archivo = abrir.getSelectedFile();
+                URL = archivo.toString();
+
+                BufferedReader br = new BufferedReader(new FileReader(URL));
+
+                String l = "";
+                String aux = "";
+
+                while (true) {
+                    aux = br.readLine();
+                    if (aux != null) {
+                        l = l + aux + "\n";
+                    } else {
+                        break;
+                    }
+                }
+                PanelFuente.setText(l);
+                br.close();
+                g.setURL(URL);
+            } else {
+                JOptionPane.showMessageDialog(this, "No se selecciono ningun archivo");
+            }
+        } catch (Exception ex) { //FileNotFoundException
+            JOptionPane.showMessageDialog(this, "No se selecciono ningun archivo");
+        }
+    }
     /**
      * @param args the command line arguments
      */
 
+    static String URL = "";
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextPane PanelFuente;
+    private javax.swing.JTextArea PanelSalida;
     private javax.swing.JMenuItem btnMenuLEATE;
     private javax.swing.JMenuItem btnMenuSalir;
     private javax.swing.JMenuItem btnmenuAbrir;
@@ -327,8 +420,6 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator4;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextPane jTextPane1;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 }
