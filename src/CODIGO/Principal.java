@@ -5,7 +5,7 @@
 package CODIGO;
 
 import INTERFAZ.*;
-import java.io.File;
+//import java.io.File;
 /**
  *
  * @author Carlos
