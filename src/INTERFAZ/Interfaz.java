@@ -175,6 +175,7 @@ public class Interfaz extends javax.swing.JFrame {
         jMenuBar1.setBackground(new java.awt.Color(0, 0, 0));
         jMenuBar1.setForeground(new java.awt.Color(255, 255, 255));
 
+        jMenu1.setForeground(new java.awt.Color(255, 255, 255));
         jMenu1.setText("Archivo");
 
         btnmenuNuevo.setText("Nuevo");
@@ -220,6 +221,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
+        jMenu2.setForeground(new java.awt.Color(255, 255, 255));
         jMenu2.setText("Compilar");
 
         jMenuItem8.setText("Analisis Lexico");
@@ -280,7 +282,8 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMenuSalirActionPerformed
 
     private void btnMenuLEATEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuLEATEActionPerformed
-        
+        AcercaDe ac = new AcercaDe();
+        ac.setVisible(true);
     }//GEN-LAST:event_btnMenuLEATEActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
