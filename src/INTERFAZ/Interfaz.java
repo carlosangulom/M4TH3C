@@ -5,15 +5,24 @@
 package INTERFAZ;
 
 import CODIGO.Guardar;
+import compilerTools.Directory;
+import compilerTools.ErrorLSSL;
 import compilerTools.Functions;
+import compilerTools.Production;
+import compilerTools.TextColor;
+import compilerTools.Token;
+import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -24,7 +33,15 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class Interfaz extends javax.swing.JFrame {
     
     Guardar g = new Guardar();
-    
+    private String title;
+    private Directory directorio;
+    private ArrayList<Token> tokens;
+    private ArrayList<ErrorLSSL> errors;
+    private ArrayList<TextColor> textsColor;
+    private Timer timerKeyReleased;
+    private ArrayList<Production> identProd;
+    private HashMap<String, String> identificadores;
+    private boolean codeHasBeenCompiled = false;
     /**
      * Creates new form Interfaz
      */
@@ -33,10 +50,44 @@ public class Interfaz extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setTitle("M4TH3C");
         this.setResizable(false);
-        Functions.setLineNumberOnJTextComponent(PanelFuente);
+        init();
         cerrar();
     }
-
+    
+    private void init() {
+        directorio = new Directory(this, PanelFuente, title, ".mtc");
+        addWindowListener(new WindowAdapter() {// Cuando presiona la "X" de la esquina superior derecha
+            @Override
+            public void windowClosing(WindowEvent e) {
+                directorio.Exit();
+                System.exit(0);
+            }
+        });
+        Functions.setLineNumberOnJTextComponent(PanelFuente);
+        timerKeyReleased = new Timer((int) (1000 * 0.3), (ActionEvent e) -> {
+            timerKeyReleased.stop();
+            //colorAnalysis();
+        });
+        Functions.insertAsteriskInName(this, PanelFuente, () -> {
+            timerKeyReleased.restart();
+        });
+        tokens = new ArrayList<>();
+        errors = new ArrayList<>();
+        textsColor = new ArrayList<>();
+        identProd = new ArrayList<>();
+        identificadores = new HashMap<>();
+        Functions.setAutocompleterJTextComponent(new String[]{"Sumar('VARIABLES')<\n      'Variable Resultado'\n>;",
+            "Restar('VARIABLES')<\n      'Variable Resultado'\n>;","Multiplicar('VARIABLES')<\n      'Variable Resultado'\n>;",
+            "Dividir('VARIABLES')<\n      'Variable Resultado'\n>;","Entero 'Nombre Variable' = 'Valor';","Entero 'Nombre Variable';",
+            "Decimal 'Nombre Variable' = 'Valor';","Decimal 'Nombre Variable';","Resultado 'Nombre Variable';",
+            "Cadena 'Nombre Variable' = 'Valor';","Cadena 'Nombre Variable';","Figura 'Nombre Variable' = 'Valor';",
+            "Figura 'Nombre Variable';","Color 'Nombre Variable' = 'Valor';","Color 'Nombre Variable';",
+            "Mostrar(‘Variable Cadena’ , ‘Variable Resultado’ , ‘Variable Figura’ , ‘Variable Color’);","Mostrar(‘Variable Cadena’ , ‘Variable Resultado’ , "
+                    + "‘Variable Figura 1’ , ‘Variable Color 1’, ‘Variable Figura 2’ , ‘Variable Color 2’, ‘Variable Figura 3’ , ‘Variable Color 3, ‘Variable Figura 4’ , "
+                    + "‘Variable Color 4’, ‘Variable Figura 5’ , ‘Variable Color 5);","Metodo 'Nombre Metodo' {\n\n      'Funciones o Variables'\n}"}, PanelFuente, () -> {
+            timerKeyReleased.restart();
+        });
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -490,7 +541,7 @@ public class Interfaz extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-
+    
     static String URL = "";
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
