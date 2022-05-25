@@ -17,7 +17,7 @@ Letra = [a-zA-Z]
 Digito = [0-9]
 Comilla = [']
 Gato = [#]
-Ampersen = [&]
+Ampersand = [&]
 Agrupacion = [()<>{}]
 Punto = [.]
 Coma = [,]
@@ -64,7 +64,7 @@ Enter = [\n\r|\n|\r\t]
 IdentificadorVariable = {Letra} ({Letra}|{Digito})*
 IdentificadorCadena = {Comilla}({Letra}|{Digito}|{Simbolo})({Letra}|{Digito}|{Simbolo})*{Comilla}
 IdentificadorResultado = {Gato}{Letra}({Letra}|{Digito})*
-IdentificadorMetodo = {Ampersen}{Letra}({Letra}|{Digito})*
+IdentificadorMetodo = {Ampersand}{Letra}({Letra}|{Digito})*
 
 /*Signo de agrupacion*/
 

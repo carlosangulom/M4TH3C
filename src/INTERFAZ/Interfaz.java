@@ -83,16 +83,17 @@ public class Interfaz extends javax.swing.JFrame {
         textsColor = new ArrayList<>();
         identProd = new ArrayList<>();
         identificadores = new HashMap<>();
-        Functions.setAutocompleterJTextComponent(new String[]{"Sumar('VARIABLES')<\n      'Variable Resultado'\n>;",
-            "Restar('VARIABLES')<\n      'Variable Resultado'\n>;","Multiplicar('VARIABLES')<\n      'Variable Resultado'\n>;",
-            "Dividir('VARIABLES')<\n      'Variable Resultado'\n>;","Entero 'Nombre Variable' = 'Valor';","Entero 'Nombre Variable';",
+        Functions.setAutocompleterJTextComponent(new String[]{"\n","Sumar('VARIABLES')<\n\n\t      'Variable Resultado'\n\n>;",
+            "Restar('VARIABLES')<\n\n\t      'Variable Resultado'\n\n>;","Multiplicar('VARIABLES')<\n\n\t      'Variable Resultado'\n\n>;",
+            "Dividir('VARIABLES')<\n\n\t      'Variable Resultado'\n\n>;","Entero 'Nombre Variable' = 'Valor';","Entero 'Nombre Variable';",
             "Decimal 'Nombre Variable' = 'Valor';","Decimal 'Nombre Variable';","Resultado 'Nombre Variable';",
             "Cadena 'Nombre Variable' = 'Valor';","Cadena 'Nombre Variable';","Figura 'Nombre Variable' = 'Valor';",
             "Figura 'Nombre Variable';","Color 'Nombre Variable' = 'Valor';","Color 'Nombre Variable';",
             "Mostrar(‘Variable Cadena’ , ‘Variable Resultado’ , ‘Variable Figura’ , ‘Variable Color’);","Mostrar(‘Variable Cadena’ , ‘Variable Resultado’ , "
                     + "‘Variable Figura 1’ , ‘Variable Color 1’, ‘Variable Figura 2’ , ‘Variable Color 2’, ‘Variable Figura 3’ , ‘Variable Color 3, ‘Variable Figura 4’ , "
-                    + "‘Variable Color 4’, ‘Variable Figura 5’ , ‘Variable Color 5);","Metodo 'Nombre Metodo' {\n\n      'Funciones o Variables'\n\n}"}, PanelFuente, () -> {
+                    + "‘Variable Color 4’, ‘Variable Figura 5’ , ‘Variable Color 5);","Metodo 'Nombre Metodo' {\n\n\t      'Funciones o Variables'\n\n}"}, PanelFuente, () -> {
             timerKeyReleased.restart();
+        timerKeyReleased.start();
         });
     }
     
