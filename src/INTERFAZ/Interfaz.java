@@ -12,7 +12,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.net.URL;
 import javax.swing.JFileChooser;
-
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
