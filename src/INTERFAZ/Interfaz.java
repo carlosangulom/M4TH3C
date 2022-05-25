@@ -297,7 +297,6 @@ public class Interfaz extends javax.swing.JFrame {
         });
         jToolBar1.add(jButton6);
 
-        PanelFuente.setBackground(new java.awt.Color(204, 204, 204));
         jScrollPane1.setViewportView(PanelFuente);
 
         PanelSalida.setColumns(20);
