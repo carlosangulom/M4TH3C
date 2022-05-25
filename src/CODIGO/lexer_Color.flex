@@ -1,13 +1,14 @@
-import compilerTools.Token;
+import compilerTools.TextColor;
+import java.awt.Color;
 
 %%
-%class Lexer
-%type Token
-%line
-%column
+
+%class LexerColor
+%type TextColor
+%char
 %{
-    private Token token(String lexeme, String lexicalComp, int line, int column){
-        return new Token(lexeme, lexicalComp, line+1, column+1);
+    private TextColor textColor(long start, int size, Color color){
+        return new TextColor((int) start, size, color);
     }
 %}
 
@@ -26,10 +27,10 @@ Reservada1
 
 /*Identificador*/
 
-Identificador = {Letra} ({Letra}|{Digito})*
-Identificador = {Comilla}({Letra}|{Digito}|{Simbolo})({Letra}|{Digito}|{Simbolo})*{Comilla}
-Identificador = {Gato}{Letra}({Letra}|{Digito})*
-Identificador = {Ampersen}{Letra}({Letra}|{Digito})*
+Identificador Variable = {Letra} ({Letra}|{Digito})*
+Identificador Cadena = {Comilla}({Letra}|{Digito}|{Simbolo})({Letra}|{Digito}|{Simbolo})*{Comilla}
+Identificador Resultado = {Gato}{Letra}({Letra}|{Digito})*
+Identificador Metodo = {Ampersen}{Letra}({Letra}|{Digito})*
 
 /*Signo de agrupacion*/
 
@@ -54,15 +55,25 @@ Operador Aritmetico = {+-}
 
 /*Palabra reservada*/
 
-/*Espacio en blanco*/
-
 Palabra Reservada = ({Sumar}|{Restar}|{Multiplicar}|{Dividir}|{Entero}|{Decimal}|
-                    {Resultado}|{Cadena}|{Figura}|{Color}|{Mostrar}|{Rojo}|{Azul}|
-                    {Verde}|{Blanco}|{Negro}|{Cuadrado}|{Triangulo}|{Rectangulo}|
+                    {Resultado}|{Cadena}|{Figura}|{Color}|{Mostrar}|
+                    {Cuadrado}|{Triangulo}|{Rectangulo}|
                     {Rombo}|{Metedo})
+
+Color1 = {Rojo}
+Color2 = {Azul}
+Color3 = {Verde}
+Color4 = {Blanco}
+Color5 = {Negro}
 
 %%
 
-{Espacio}{/*Ignorar*/}
+{Color1} { return textColor(yychar, yylength(), new Color(255, 0, 0)); }
+{Color2} { return textColor(yychar, yylength(), new Color(0, 0, 255)); }
+{Color3} { return textColor(yychar, yylength(), new Color(0, 255, 0)); }
+{Color4} { return textColor(yychar, yylength(), new Color(255, 255, 255)); }
+{Color5} { return textColor(yychar, yylength(), new Color(0, 0, 0)); }
+{Palabra Reservada} { return textColor(yychar, yylength(), new Color(100, 0, 126)); }
+{Identificador Cadena} { return textColor(yychar, yylength(), new Color(255, 50, 233)); }
 
-. { return token(yytext(), "ERROR", yyline, yycolumn); }
+. { /*Ignorar*/ }
