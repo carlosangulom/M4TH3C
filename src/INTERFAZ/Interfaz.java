@@ -89,7 +89,8 @@ public class Interfaz extends javax.swing.JFrame {
     }
     
     private void clearFields(){
-        
+        Functions.clearDataInTable(Tokens);
+        PanelSalida.setText("");
         tokens.clear();
         errors.clear();
         identProd.clear();
@@ -103,7 +104,39 @@ public class Interfaz extends javax.swing.JFrame {
     
     private void compilar(){
         clearFields();
+        lexicalAnalysis();
+        fillTableTokens();
+        printConsole();
+        codeHasBeenCompiled = true;
     }
+    
+    private void lexicalAnalysis(){
+    
+    }
+    
+    private void fillTableTokens(){
+        tokens.forEach(token -> {
+            Object[] data = new Object[]{token.getLexicalComp(), token.getLexeme(), "[" + token.getLine() + ", " + token.getColumn() + "]"};
+            Functions.addRowDataInTable(Tokens, data);
+        });
+    }
+    
+    private void printConsole(){
+        int sizeErrors = errors.size();
+        if (sizeErrors > 0) {
+            Functions.sortErrorsByLineAndColumn(errors);
+            String strErrors = "\n";
+            for (ErrorLSSL error : errors) {
+                String strError = String.valueOf(error);
+                strErrors += strError + "\n";
+            }
+            PanelSalida.setText("Compilación terminada...\n" + strErrors + "\nLa compilación terminó con errores...");
+        } else {
+            PanelSalida.setText("Compilación terminada...");
+        }
+        PanelSalida.setCaretPosition(0);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -127,7 +160,7 @@ public class Interfaz extends javax.swing.JFrame {
         PanelSalida = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        Tokens = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -221,7 +254,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        Tokens.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -229,7 +262,7 @@ public class Interfaz extends javax.swing.JFrame {
                 "Token", "Lexema", "Fila"
             }
         ));
-        jScrollPane3.setViewportView(jTable1);
+        jScrollPane3.setViewportView(Tokens);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -281,7 +314,6 @@ public class Interfaz extends javax.swing.JFrame {
         );
 
         jMenuBar1.setBackground(new java.awt.Color(0, 0, 0));
-        jMenuBar1.setForeground(new java.awt.Color(255, 255, 255));
 
         jMenu1.setForeground(new java.awt.Color(255, 255, 255));
         jMenu1.setText("Archivo");
@@ -321,7 +353,6 @@ public class Interfaz extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setForeground(new java.awt.Color(255, 255, 255));
         jMenu2.setText("Compilar");
 
         jMenuItem8.setText("Analisis Lexico");
@@ -330,7 +361,6 @@ public class Interfaz extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu2);
 
-        jMenu4.setForeground(new java.awt.Color(255, 255, 255));
         jMenu4.setText("Acerca de");
 
         btnMenuLEATE.setText("Sobre M4TH3C");
@@ -433,11 +463,12 @@ public class Interfaz extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     
-    static String URL = "";
+
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextPane PanelFuente;
     private javax.swing.JTextArea PanelSalida;
+    private javax.swing.JTable Tokens;
     private javax.swing.JMenuItem btnMenuLEATE;
     private javax.swing.JMenuItem btnmenuAbrir;
     private javax.swing.JMenuItem btnmenuGuardar;
@@ -462,7 +493,6 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator4;
-    private javax.swing.JTable jTable1;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 }
