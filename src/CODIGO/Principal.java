@@ -5,12 +5,14 @@
 package CODIGO;
 
 import INTERFAZ.*;
+import java.io.File;
 /**
  *
  * @author Carlos
  */
 public class Principal {
     public static void main(String[] args) {
+        //jflex.Main.generate(new File("src\\CODIGO\\lexer.flex"));
         Interfaz main = new Interfaz();
         main.setVisible(true);
     }
