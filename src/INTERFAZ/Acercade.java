@@ -5,7 +5,9 @@
  */
 package INTERFAZ;
 import java.awt.Desktop;
+import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,6 +18,8 @@ public class Acercade extends javax.swing.JDialog {
 
     /**
      * Creates new form Acercade
+     * @param parent
+     * @param modal
      */
     public Acercade(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -168,7 +172,7 @@ public class Acercade extends javax.swing.JDialog {
         // TODO add your handling code here:
         try {
             Desktop.getDesktop().browse(new URI("https://drive.google.com/file/d/1C8FrCXNL3YyNhqDGAtD3dPVD63BAqPSr/view?usp=sharing"));
-        } catch (Exception e) {
+        } catch (IOException | URISyntaxException e) {
             JOptionPane.showMessageDialog(null,"ERROR, no se puede ejecutar la acción");
         }
     }//GEN-LAST:event_btnDocumentacióActionPerformed
@@ -177,7 +181,7 @@ public class Acercade extends javax.swing.JDialog {
         
         try {
             Desktop.getDesktop().browse(new URI("https://github.com/Cristopher-exe/CompiladorLEATE"));
-        } catch (Exception e) {
+        } catch (IOException | URISyntaxException e) {
             JOptionPane.showMessageDialog(null,"ERROR, no se puede ejecutar la acción");
         }
     }//GEN-LAST:event_btnCodigoActionPerformed
@@ -211,17 +215,15 @@ public class Acercade extends javax.swing.JDialog {
         //</editor-fold>
 
         /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                Acercade dialog = new Acercade(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            Acercade dialog = new Acercade(new javax.swing.JFrame(), true);
+            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosing(java.awt.event.WindowEvent e) {
+                    System.exit(0);
+                }
+            });
+            dialog.setVisible(true);
         });
     }
 
