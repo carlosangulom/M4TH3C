@@ -4,27 +4,35 @@
  */
 package INTERFAZ;
 
-import CODIGO.Guardar;
+
+import CODIGO.*;
+import LexerColor;
+import com.formdev.flatlaf.FlatIntelliJLaf;
+import compilerTools.CodeBlock;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import compilerTools.Directory;
 import compilerTools.ErrorLSSL;
 import compilerTools.Functions;
+import compilerTools.Grammar;
 import compilerTools.Production;
 import compilerTools.TextColor;
 import compilerTools.Token;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.net.URL;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -32,7 +40,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class Interfaz extends javax.swing.JFrame {
     
-    Guardar g = new Guardar();
+
     private String title;
     private ArrayList<Token> tokens;
     private ArrayList<ErrorLSSL> errors;
@@ -99,7 +107,30 @@ public class Interfaz extends javax.swing.JFrame {
     }
     
     private void colorAnalysis(){
-    
+         /* Limpiar el arreglo de colores */
+        textsColor.clear();
+        /* Extraer rangos de colores */
+        LexerColor lexerColor;
+        try {
+            File codigo = new File("color.encrypter");
+            FileOutputStream output = new FileOutputStream(codigo);
+            byte[] bytesText = PanelFuente.getText().getBytes();
+            output.write(bytesText);
+            BufferedReader entrada = new BufferedReader(new InputStreamReader(new FileInputStream(codigo), "UTF8"));
+            lexerColor = new LexerColor(entrada);
+            while (true) {
+                TextColor textColor = lexerColor.yylex();
+                if (textColor == null) {
+                    break;
+                }
+                textsColor.add(textColor);
+            }
+        } catch (FileNotFoundException ex) {
+            System.out.println("El archivo no pudo ser encontrado... " + ex.getMessage());
+        } catch (IOException ex) {
+            System.out.println("Error al escribir en el archivo... " + ex.getMessage());
+        }
+        Functions.colorTextPane(textsColor, PanelFuente, new Color(40, 40, 40));
     }
     
     private void compilar(){

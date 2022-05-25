@@ -16,53 +16,88 @@ import compilerTools.Token;
 Espacio = [ ]
 Letra = [a-zA-Z]
 Digito = [0-9]
-Comilla = ["]
+Comilla = [']
 Gato = [#]
 Ampersen = [&]
 Agrupacion = [()<>{}]
 Punto = [.]
 Simbolo = [ .,=()<>#{}+-;:&]
-Reservada1
+Asignacion = [=]
+Delimitador = [;]
+Operador = [+-]
+Sumar = [Sumar]
+Restar = [Restar]
+Multiplicar = [Multiplicar] 
+Dividir = [Dividir]
+Entero = [Entero]
+Decimal = [Decimal]
+Resultado = [Resultado]
+Cadena = [Cadena]
+Figura = [Figura]
+Color = [Color]
+Mostrar = [Mostrar]
+Rojo = [Rojo]
+Azul = [Azul]
+Verde = [Verde]
+Blanco = [Blanco]
+Negro = [Negro]
+Cuadrado = [Cuadrado]
+Triangulo = [Triangulo]
+Rectangulo = [Rectangulo]
+Rombo = [Rombo]
+Metedo = [Metodo]
 
 /*Identificador*/
 
-Identificador Variable = {Letra} ({Letra}|{Digito})*
-Identificador Cadena = {Comilla}({Letra}|{Digito}|{Simbolo})({Letra}|{Digito}|{Simbolo})*{Comilla}
-Identificador Resultado = {Gato}{Letra}({Letra}|{Digito})*
-Identificador Metodo = {Ampersen}{Letra}({Letra}|{Digito})*
+IdentificadorVariable = {Letra} ({Letra}|{Digito})*
+IdentificadorCadena = {Comilla}({Letra}|{Digito}|{Simbolo})({Letra}|{Digito}|{Simbolo})*{Comilla}
+IdentificadorResultado = {Gato}{Letra}({Letra}|{Digito})*
+IdentificadorMetodo = {Ampersen}{Letra}({Letra}|{Digito})*
 
 /*Signo de agrupacion*/
 
-Signo De Agrupacion = {Agrupacion}
+SignoDeAgrupacion = {Agrupacion}
 
 /*Numero*/
 
-Numero = {Digito}({Digito})*
-Numero = {Digito}({Digito})*{Punto}{Digito}({Digito})* 
+NumeroEntero = {Digito}({Digito})*
+NumeroDecimal = {Digito}({Digito})*{Punto}{Digito}({Digito})* 
 
 /*Operador de asignacion*/
 
-Operador De Asinacion = {=}
+OperadorDeAsignacion = {Asignacion}
 
 /*Signo delimitador de sentencia*/
 
-Signo Delimitador De Sentencia = {;}
+SignoDelimitadorDeSentencia = {Delimitador}
 
 /*Operador aritmetico*/
 
-Operador Aritmetico = {+-}
+OperadorAritmetico = {Operador}
 
 /*Palabra reservada*/
 
 /*Espacio en blanco*/
 
-Palabra Reservada = ({Sumar}|{Restar}|{Multiplicar}|{Dividir}|{Entero}|{Decimal}|
+PalabraReservada = ({Sumar}|{Restar}|{Multiplicar}|{Dividir}|{Entero}|{Decimal}|
                     {Resultado}|{Cadena}|{Figura}|{Color}|{Mostrar}|{Rojo}|{Azul}|
                     {Verde}|{Blanco}|{Negro}|{Cuadrado}|{Triangulo}|{Rectangulo}|
                     {Rombo}|{Metedo})
 
 %%
 
-{Espacio}{/*Ignorar*/}
+{Espacio} {/*Ignorar*/}
+
+{IdentificadorVariable} { return token(yytext(), "Identificador", yyline, yycolumn); }
+{IdentificadorCadena} { return token(yytext(), "Identificador", yyline, yycolumn); }
+{IdentificadorResultado} { return token(yytext(), "Identificador", yyline, yycolumn); }
+{IdentificadorMetodo} { return token(yytext(), "Identificador", yyline, yycolumn); }
+{SignoDeAgrupacion} { return token(yytext(), "Signo De Agrupacion", yyline, yycolumn); }
+{NumeroEntero} { return token(yytext(), "Numero", yyline, yycolumn); }
+{NumeroDecimal} { return token(yytext(), "Numero", yyline, yycolumn); }
+{OperadorDeAsignacion} { return token(yytext(), "Operador De Asignacion", yyline, yycolumn); }
+{SignoDelimitadorDeSentencia} { return token(yytext(), "Signo Delimitador De Sentencia", yyline, yycolumn); }
+{OperadorAritmetico} { return token(yytext(), "Operador Aritmetico", yyline, yycolumn); }
+{PalabraReservada} { return token(yytext(), "Palabra Reservada", yyline, yycolumn); }
 
 . { return token(yytext(), "ERROR", yyline, yycolumn); }
