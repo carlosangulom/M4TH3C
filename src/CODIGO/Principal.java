@@ -6,7 +6,7 @@ package CODIGO;
 
 import INTERFAZ.*;
 import java.io.*;
-import jflex.exceptions.SilentExit;
+//import jflex.exceptions.SilentExit;
  /*
  * @author Carlos
  */
@@ -16,9 +16,9 @@ public class Principal {
         Interfaz main = new Interfaz();
         main.setVisible(true);
     }
-    
+    /*
     public static void generateLexer(String ruta) throws SilentExit{
         File file = new File(ruta, "lexer");
         jflex.Main.generate(file.list());
-    }
+    }*/
 }

@@ -5,6 +5,7 @@
 package INTERFAZ;
 
 import CODIGO.Guardar;
+import compilerTools.Functions;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
@@ -32,7 +33,7 @@ public class Interfaz extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setTitle("M4TH3C");
         this.setResizable(false);
-        
+        Functions.setLineNumberOnJTextComponent(PanelFuente);
         cerrar();
     }
 
@@ -358,9 +359,9 @@ public class Interfaz extends javax.swing.JFrame {
             int num = JOptionPane.showConfirmDialog(null, "¿Deseas guardar el archivo antes de salir?");
             if (num == 0) {
                 g.guardar(PanelFuente.getText());
-                dispose();
+                System.exit(0);
             } else if (num == 1) {
-                dispose();
+                System.exit(0);
             }
         }
     }//GEN-LAST:event_btnMenuSalirActionPerformed
