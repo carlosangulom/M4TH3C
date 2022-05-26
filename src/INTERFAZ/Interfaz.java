@@ -41,6 +41,7 @@ public class Interfaz extends javax.swing.JFrame {
 
     private String title;
     private ArrayList<Token> tokens;
+    private String[] Errores;
     private ArrayList<ErrorLSSL> errors;
     private ArrayList<TextColor> textsColor;
     private Timer timerKeyReleased;
@@ -136,14 +137,16 @@ public class Interfaz extends javax.swing.JFrame {
         clearFields();
         lexicalAnalysis();
         fillTableTokens();
+        syntacticAnalysis();
         printConsole();
         codeHasBeenCompiled = true;
     }
     
     private void lexicalAnalysis(){
-        // Extraer tokens
-        Lexer lexer;
+       
         try {
+            // Extraer tokens
+            Lexer lexer;
             File codigo = new File("code.encrypter");
             FileOutputStream output = new FileOutputStream(codigo);
             byte[] bytesText = PanelFuente.getText().getBytes();
@@ -153,9 +156,16 @@ public class Interfaz extends javax.swing.JFrame {
             while (true) {
                 Token token = lexer.yylex();
                 if (token == null) {
+                    tokens.add(token);
+                    PanelSalida.setText("Componente lexico: "+token.getLexicalComp());
+                
                     break;
-                }
+                    
+                }else{
+                    PanelSalida.setText("Componente lexico: "+token.getLexicalComp());
                 tokens.add(token);
+                PanelSalida.setText("Componente lexico: "+token.getLexicalComp());
+                }
             }
         } catch (FileNotFoundException ex) {
             System.out.println("El archivo no pudo ser encontrado... " + ex.getMessage());
@@ -164,9 +174,17 @@ public class Interfaz extends javax.swing.JFrame {
         }
     }
     
+    private void syntacticAnalysis() {
+        Grammar gramatica = new Grammar(tokens, errors);
+        
+        
+        /* Mostrar gramáticas */
+        gramatica.show();
+    }
+    
     private void fillTableTokens(){
         tokens.forEach(token -> {
-            Object[] data = new Object[]{token.getLexicalComp(), token.getLexeme(), "[" + token.getLine() + ", " + token.getColumn() + "]"};
+            Object[] data = new Object[]{token.getLexicalComp(), token.getLexeme(), "[Linea " + token.getLine() + ", Columna " + token.getColumn() + "]"};
             Functions.addRowDataInTable(Tokens, data);
         });
     }
@@ -182,7 +200,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
             PanelSalida.setText("Compilación terminada...\n" + strErrors + "\nLa compilación terminó con errores...");
         } else {
-            PanelSalida.setText("Compilación terminada...\n Termino sin errores...");
+            PanelSalida.setText("Compilación terminada...\n");
         }
         PanelSalida.setCaretPosition(0);
     }

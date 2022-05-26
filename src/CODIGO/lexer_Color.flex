@@ -14,11 +14,16 @@ import java.awt.Color;
 
 /*Variables*/
 
+CaracterNoValido = [!¡¿?"$"%_"-""*""/""|"]
+SimboloError = [.,=()<>#{}+-;:&]
+SimboloError2 = [,=()<>#{}+-;:&]
+Espacio2 = [ ]
+
 Letra = [a-zA-Z]
 Digito = [0-9]
 Comilla = [']
 Gato = [#]
-Ampersen = [&]
+Ampersand = [&]
 Agrupacion = [()<>{}]
 Punto = [.]
 Coma = [,]
@@ -66,7 +71,7 @@ Espacio = [\r|\n|\r\n] | [ \t\f]
 IdentificadorVariable = {Letra} ({Letra}|{Digito})*
 IdentificadorCadena = {Comilla}({Letra}|{Digito}|{Simbolo})({Letra}|{Digito}|{Simbolo})*{Comilla}
 IdentificadorResultado = {Gato}{Letra}({Letra}|{Digito})*
-IdentificadorMetodo = {Ampersen}{Letra}({Letra}|{Digito})*
+IdentificadorMetodo = {Ampersand}{Letra}({Letra}|{Digito})*
 
 /*Signo de agrupacion*/
 
@@ -123,6 +128,55 @@ Figura5 = {Circulo}
 
 Metodo1 = {Metodo}
 
+/*ERRORES*/
+
+Error0 = {CaracterNoValido}
+
+Error1 = ({Digito}|{SimboloError}|{CaracterNoValido}){Letra} ({Letra}|{Digito})*
+
+Error2 = ({Letra}(({SimboloError}|{CaracterNoValido})({Letra}|{Digito})*)(({SimboloError}|{CaracterNoValido})({Letra}|{Digito})*)*)|
+         ({Letra}(({Letra}|{Digito})*({SimboloError}|{CaracterNoValido}))(({Letra}|{Digito})*({SimboloError}|{CaracterNoValido}))*)|
+         ({Letra}(({SimboloError}|{CaracterNoValido})({SimboloError}|{CaracterNoValido})*({Letra}|{Digito})*)(({SimboloError}|{CaracterNoValido})({SimboloError}|{CaracterNoValido})*({Letra}|{Digito})*)*)|
+         ({Letra}(({Letra}|{Digito})*({SimboloError}|{CaracterNoValido})({SimboloError}|{CaracterNoValido})*)(({Letra}|{Digito})*({SimboloError}|{CaracterNoValido})({SimboloError}|{CaracterNoValido})*)*)
+
+Error3 = {Comilla}({SimboloError}|{CaracterNoValido})({Letra}|{Digito}|{Simbolo}|{CaracterNoValido})*{Comilla}
+
+Error4 = {Comilla}{Espacio2}{Espacio2}*{Comilla}
+
+Error5 = ({Letra}|{Digito})({Letra}|{Digito}|{Simbolo})*{Comilla}|{Comilla}({Letra}|{Digito})({Letra}|{Digito}|{Simbolo})*
+
+Error6 = ({Gato}(({SimboloError}|{CaracterNoValido})({Letra}|{Digito})*)(({SimboloError}|{CaracterNoValido})({Letra}|{Digito})*)*)|
+         ({Gato}(({Letra}|{Digito})*({SimboloError}|{CaracterNoValido}))(({Letra}|{Digito})*({SimboloError}|{CaracterNoValido}))*)|
+         ({Gato}(({SimboloError}|{CaracterNoValido})({SimboloError}|{CaracterNoValido})*({Letra}|{Digito})*)(({SimboloError}|{CaracterNoValido})({SimboloError}|{CaracterNoValido})*({Letra}|{Digito})*)*)|
+         ({Gato}(({Letra}|{Digito})*({SimboloError}|{CaracterNoValido})({SimboloError}|{CaracterNoValido})*)(({Letra}|{Digito})*({SimboloError}|{CaracterNoValido})({SimboloError}|{CaracterNoValido})*)*)
+
+Error7 = {Gato}
+
+Error8 = ({Ampersand}(({SimboloError}|{CaracterNoValido})({Letra}|{Digito})*)(({SimboloError}|{CaracterNoValido})({Letra}|{Digito})*)*)|
+         ({Ampersand}(({Letra}|{Digito})*({SimboloError}|{CaracterNoValido}))(({Letra}|{Digito})*({SimboloError}|{CaracterNoValido}))*)|
+         ({Ampersand}(({SimboloError}|{CaracterNoValido})({SimboloError}|{CaracterNoValido})*({Letra}|{Digito})*)(({SimboloError}|{CaracterNoValido})({SimboloError}|{CaracterNoValido})*({Letra}|{Digito})*)*)|
+         ({Ampersand}(({Letra}|{Digito})*({SimboloError}|{CaracterNoValido})({SimboloError}|{CaracterNoValido})*)(({Letra}|{Digito})*({SimboloError}|{CaracterNoValido})({SimboloError}|{CaracterNoValido})*)*)
+
+Error9 = {Ampersand}
+
+Error10 = {Digito}({Letra}|{CaracterNoValido}|{SimboloError2})({Letra}|{CaracterNoValido}|{SimboloError2})*|
+         {Digito}({Digito})*{Punto}({Letra}|{CaracterNoValido}|{SimboloError2})({Letra}|{CaracterNoValido}|{SimboloError2})*|
+         {Digito}({Digito})*({Letra}|{CaracterNoValido}|{SimboloError2})({Letra}|{CaracterNoValido}|{SimboloError2})*|
+         {Digito}(({Digito})*({Letra}|{CaracterNoValido}|{SimboloError2})({Letra}|{CaracterNoValido}|{SimboloError2})*)(({Digito})*({Letra}|{CaracterNoValido}|{SimboloError2})({Letra}|{CaracterNoValido}|{SimboloError2})*)*|
+         {Digito}({Digito})*{Punto}{Digito}({Digito})*({Letra}|{CaracterNoValido}|{SimboloError2})({Letra}|{CaracterNoValido}|{SimboloError2})*|
+         {Digito}({Digito})*{Punto}{Digito}(({Digito})*({Letra}|{CaracterNoValido}|{SimboloError2})({Letra}|{CaracterNoValido}|{SimboloError2})*)(({Digito})*({Letra}|{CaracterNoValido}|{SimboloError2})({Letra}|{CaracterNoValido}|{SimboloError2})*)*|
+         {Digito}({Digito})*({Letra}|{CaracterNoValido}|{SimboloError2})({Letra}|{CaracterNoValido}|{SimboloError2})*{Punto}{Digito}({Digito})*
+         {Digito}(({Digito})*({Letra}|{CaracterNoValido}|{SimboloError2})({Letra}|{CaracterNoValido}|{SimboloError2})*)(({Digito})*({Letra}|{CaracterNoValido}|{SimboloError2})({Letra}|{CaracterNoValido}|{SimboloError2})*)*{Punto}{Digito}({Digito})*
+
+Error11 = {Digito}({Digito})*{Punto}
+
+Error12 = {Punto}{Digito}({Digito})*
+
+Error13 = {Punto}({Digito}|{Punto})({Digito}|{Punto})*
+
+Error14 = ({Letra}|{SimboloError}|{CaracterNoValido}){Digito}({Digito})*|
+          ({Letra}|{SimboloError}|{CaracterNoValido}){Digito}({Digito})*{Punto}{Digito}({Digito})*
+ 
 %%
 
 {Espacio} {/*Ignorar*/}
@@ -172,5 +226,20 @@ Metodo1 = {Metodo}
 {OperadorAritmeticoNegativo} { return textColor(yychar, yylength(), new Color(0, 0, 255)); }
 
 {Separador} { /*Ignorar*/ }
+
+{Error1} { return textColor(yychar, yylength(), new Color(255, 95, 109)); }
+{Error2} { return textColor(yychar, yylength(), new Color(255, 95, 109)); }
+{Error3} { return textColor(yychar, yylength(), new Color(255, 95, 109)); }
+{Error4} { return textColor(yychar, yylength(), new Color(255, 95, 109)); }
+{Error5} { return textColor(yychar, yylength(), new Color(255, 95, 109)); }
+{Error6} { return textColor(yychar, yylength(), new Color(255, 95, 109)); }
+{Error7} { return textColor(yychar, yylength(), new Color(255, 95, 109)); }
+{Error8} { return textColor(yychar, yylength(), new Color(255, 95, 109)); }
+{Error9} { return textColor(yychar, yylength(), new Color(255, 95, 109)); }
+{Error10} { return textColor(yychar, yylength(), new Color(255, 95, 109)); }
+{Error11} { return textColor(yychar, yylength(), new Color(255, 95, 109)); }
+{Error12} { return textColor(yychar, yylength(), new Color(255, 95, 109)); }
+{Error13} { return textColor(yychar, yylength(), new Color(255, 95, 109)); }
+{Error14} { return textColor(yychar, yylength(), new Color(255, 95, 109)); }
 
 . { /*Ignorar*/ }

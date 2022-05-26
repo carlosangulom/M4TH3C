@@ -15,6 +15,8 @@ import compilerTools.Token;
 
 CaracterNoValido = [!¡¿?"$"%_"-""*""/""|"]
 SimboloError = [.,=()<>#{}+-;:&]
+SimboloError2 = [,=()<>#{}+-;:&]
+Espacio2 = [ ]
 
 Letra = [a-zA-Z]
 Digito = [0-9]
@@ -126,44 +128,51 @@ Metodo1 = {Metodo}
 
 Error0 = {CaracterNoValido}
 
-Error1 = ({Letra}(({SimboloError}|{CaracterNoValido})({Letra}|{Digito})*)(({SimboloError}|{CaracterNoValido})({Letra}|{Digito})*)*)|
+Error1 = ({Digito}|{SimboloError}|{CaracterNoValido}){Letra} ({Letra}|{Digito})*
+
+Error2 = ({Letra}(({SimboloError}|{CaracterNoValido})({Letra}|{Digito})*)(({SimboloError}|{CaracterNoValido})({Letra}|{Digito})*)*)|
          ({Letra}(({Letra}|{Digito})*({SimboloError}|{CaracterNoValido}))(({Letra}|{Digito})*({SimboloError}|{CaracterNoValido}))*)|
          ({Letra}(({SimboloError}|{CaracterNoValido})({SimboloError}|{CaracterNoValido})*({Letra}|{Digito})*)(({SimboloError}|{CaracterNoValido})({SimboloError}|{CaracterNoValido})*({Letra}|{Digito})*)*)|
          ({Letra}(({Letra}|{Digito})*({SimboloError}|{CaracterNoValido})({SimboloError}|{CaracterNoValido})*)(({Letra}|{Digito})*({SimboloError}|{CaracterNoValido})({SimboloError}|{CaracterNoValido})*)*)
 
-Error2 = {Comilla}(({Letra}|{Digito}|{SimboloError}|{CaracterNoValido}))(({Letra}|{Digito}|{Simbolo}|{CaracterNoValido})*)*{Comilla}|
-         {Comilla}(({Letra}|{Digito}|{Simbolo}|{CaracterNoValido}))(({Letra}|{Digito}|{Simbolo}|{CaracterNoValido})*)*{Comilla}
+Error3 = {Comilla}({SimboloError}|{CaracterNoValido})({Letra}|{Digito}|{Simbolo}|{CaracterNoValido})*{Comilla}
 
-Error3 = {Comilla}{Espacio}*{Comilla}
+Error4 = {Comilla}{Espacio2}{Espacio2}*{Comilla}
 
-Error4 = ({Letra}|{Digito})({Letra}|{Digito}|{Simbolo})*{Comilla}|{Comilla}({Letra}|{Digito})({Letra}|{Digito}|{Simbolo})*
+Error5 = ({Letra}|{Digito})({Letra}|{Digito}|{Simbolo})*{Comilla}|{Comilla}({Letra}|{Digito})({Letra}|{Digito}|{Simbolo})*
 
-Error5 = ({Gato}(({SimboloError}|{CaracterNoValido})({Letra}|{Digito})*)(({SimboloError}|{CaracterNoValido})({Letra}|{Digito})*)*)|
+Error6 = ({Gato}(({SimboloError}|{CaracterNoValido})({Letra}|{Digito})*)(({SimboloError}|{CaracterNoValido})({Letra}|{Digito})*)*)|
          ({Gato}(({Letra}|{Digito})*({SimboloError}|{CaracterNoValido}))(({Letra}|{Digito})*({SimboloError}|{CaracterNoValido}))*)|
          ({Gato}(({SimboloError}|{CaracterNoValido})({SimboloError}|{CaracterNoValido})*({Letra}|{Digito})*)(({SimboloError}|{CaracterNoValido})({SimboloError}|{CaracterNoValido})*({Letra}|{Digito})*)*)|
          ({Gato}(({Letra}|{Digito})*({SimboloError}|{CaracterNoValido})({SimboloError}|{CaracterNoValido})*)(({Letra}|{Digito})*({SimboloError}|{CaracterNoValido})({SimboloError}|{CaracterNoValido})*)*)
 
-Error6 = {Gato}
+Error7 = {Gato}
 
-Error7 = ({Ampersand}(({SimboloError}|{CaracterNoValido})({Letra}|{Digito})*)(({SimboloError}|{CaracterNoValido})({Letra}|{Digito})*)*)|
+Error8 = ({Ampersand}(({SimboloError}|{CaracterNoValido})({Letra}|{Digito})*)(({SimboloError}|{CaracterNoValido})({Letra}|{Digito})*)*)|
          ({Ampersand}(({Letra}|{Digito})*({SimboloError}|{CaracterNoValido}))(({Letra}|{Digito})*({SimboloError}|{CaracterNoValido}))*)|
          ({Ampersand}(({SimboloError}|{CaracterNoValido})({SimboloError}|{CaracterNoValido})*({Letra}|{Digito})*)(({SimboloError}|{CaracterNoValido})({SimboloError}|{CaracterNoValido})*({Letra}|{Digito})*)*)|
          ({Ampersand}(({Letra}|{Digito})*({SimboloError}|{CaracterNoValido})({SimboloError}|{CaracterNoValido})*)(({Letra}|{Digito})*({SimboloError}|{CaracterNoValido})({SimboloError}|{CaracterNoValido})*)*)
 
-Error8 = {Ampersand}
+Error9 = {Ampersand}
 
-Error9 = {Digito}({Letra}|{CaracterNoValido}|{SimboloError})({Letra}|{CaracterNoValido}|{SimboloError})*|
-         {Digito}({Digito})*{Punto}({Letra}|{CaracterNoValido}|{SimboloError})({Letra}|{CaracterNoValido}|{SimboloError})*|
-         {Digito}({Digito})*({Letra}|{CaracterNoValido}|{SimboloError})({Letra}|{CaracterNoValido}|{SimboloError})*|
-         {Digito}(({Digito})*({Letra}|{CaracterNoValido}|{SimboloError})({Letra}|{CaracterNoValido}|{SimboloError})*)(({Digito})*({Letra}|{CaracterNoValido}|{SimboloError})({Letra}|{CaracterNoValido}|{SimboloError})*)*|
-         {Digito}({Digito})*{Punto}{Digito}({Digito})*({Letra}|{CaracterNoValido}|{SimboloError})({Letra}|{CaracterNoValido}|{SimboloError})*|
-         {Digito}({Digito})*{Punto}{Digito}(({Digito})*({Letra}|{CaracterNoValido}|{SimboloError})({Letra}|{CaracterNoValido}|{SimboloError})*)(({Digito})*({Letra}|{CaracterNoValido}|{SimboloError})({Letra}|{CaracterNoValido}|{SimboloError})*)*|
-         {Digito}({Digito})*({Letra}|{CaracterNoValido}|{SimboloError})({Letra}|{CaracterNoValido}|{SimboloError})*{Punto}{Digito}({Digito})*
-         {Digito}(({Digito})*({Letra}|{CaracterNoValido}|{SimboloError})({Letra}|{CaracterNoValido}|{SimboloError})*)(({Digito})*({Letra}|{CaracterNoValido}|{SimboloError})({Letra}|{CaracterNoValido}|{SimboloError})*)*{Punto}{Digito}({Digito})*
+Error10 = {Digito}({Letra}|{CaracterNoValido}|{SimboloError2})({Letra}|{CaracterNoValido}|{SimboloError2})*|
+         {Digito}({Digito})*{Punto}({Letra}|{CaracterNoValido}|{SimboloError2})({Letra}|{CaracterNoValido}|{SimboloError2})*|
+         {Digito}({Digito})*({Letra}|{CaracterNoValido}|{SimboloError2})({Letra}|{CaracterNoValido}|{SimboloError2})*|
+         {Digito}(({Digito})*({Letra}|{CaracterNoValido}|{SimboloError2})({Letra}|{CaracterNoValido}|{SimboloError2})*)(({Digito})*({Letra}|{CaracterNoValido}|{SimboloError2})({Letra}|{CaracterNoValido}|{SimboloError2})*)*|
+         {Digito}({Digito})*{Punto}{Digito}({Digito})*({Letra}|{CaracterNoValido}|{SimboloError2})({Letra}|{CaracterNoValido}|{SimboloError2})*|
+         {Digito}({Digito})*{Punto}{Digito}(({Digito})*({Letra}|{CaracterNoValido}|{SimboloError2})({Letra}|{CaracterNoValido}|{SimboloError2})*)(({Digito})*({Letra}|{CaracterNoValido}|{SimboloError2})({Letra}|{CaracterNoValido}|{SimboloError2})*)*|
+         {Digito}({Digito})*({Letra}|{CaracterNoValido}|{SimboloError2})({Letra}|{CaracterNoValido}|{SimboloError2})*{Punto}{Digito}({Digito})*
+         {Digito}(({Digito})*({Letra}|{CaracterNoValido}|{SimboloError2})({Letra}|{CaracterNoValido}|{SimboloError2})*)(({Digito})*({Letra}|{CaracterNoValido}|{SimboloError2})({Letra}|{CaracterNoValido}|{SimboloError2})*)*{Punto}{Digito}({Digito})*
 
-NumeroEntero = {Digito}({Digito})*
-NumeroDecimal = {Digito}({Digito})*{Punto}{Digito}({Digito})* 
+Error11 = {Digito}({Digito})*{Punto}
 
+Error12 = {Punto}{Digito}({Digito})*
+
+Error13 = {Punto}({Digito}|{Punto})({Digito}|{Punto})*
+
+Error14 = ({Letra}|{SimboloError}|{CaracterNoValido}){Digito}({Digito})*|
+          ({Letra}|{SimboloError}|{CaracterNoValido}){Digito}({Digito})*{Punto}{Digito}({Digito})*
+ 
 %%
 
 {Espacio} {/*Ignorar*/}
@@ -223,5 +232,10 @@ NumeroDecimal = {Digito}({Digito})*{Punto}{Digito}({Digito})*
 {Error7} { return token(yytext(), "ERROR 7", yyline, yycolumn); }
 {Error8} { return token(yytext(), "ERROR 8", yyline, yycolumn); }
 {Error9} { return token(yytext(), "ERROR 9", yyline, yycolumn); }
+{Error10} { return token(yytext(), "ERROR 10", yyline, yycolumn); }
+{Error11} { return token(yytext(), "ERROR 11", yyline, yycolumn); }
+{Error12} { return token(yytext(), "ERROR 12", yyline, yycolumn); }
+{Error13} { return token(yytext(), "ERROR 14", yyline, yycolumn); }
+{Error14} { return token(yytext(), "ERROR 15", yyline, yycolumn); }
 
 . { return token(yytext(), "ERROR #", yyline, yycolumn); }
