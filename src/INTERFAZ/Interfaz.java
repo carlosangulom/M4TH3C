@@ -5,8 +5,6 @@
 package INTERFAZ;
 
 
-import CODIGO.*;
-import LexerColor;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import compilerTools.CodeBlock;
 import javax.swing.UIManager;
@@ -184,7 +182,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
             PanelSalida.setText("Compilación terminada...\n" + strErrors + "\nLa compilación terminó con errores...");
         } else {
-            PanelSalida.setText("Compilación terminada...");
+            PanelSalida.setText("Compilación terminada...\n Termino sin errores...");
         }
         PanelSalida.setCaretPosition(0);
     }
@@ -311,7 +309,7 @@ public class Interfaz extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Token", "Lexema", "Fila"
+                "Token", "Lexema", "[Fila,Columna]"
             }
         ));
         jScrollPane3.setViewportView(Tokens);

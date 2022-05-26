@@ -57,8 +57,7 @@ Circulo = [C][i][r][c][u][l][o]
 Metodo = [M][e][t][o][d][o]
 
 
-Espacio = [ ]
-Enter = [\n\r|\n|\r]
+Espacio = [\r|\n|\r\n] | [ \t\f]
 
 /* -------- COMPONENTES LEXICOS -------*/
 
@@ -126,7 +125,6 @@ Metodo1 = {Metodo}
 
 %%
 
-{Enter} {/*Ignorar*/}
 {Espacio} {/*Ignorar*/}
 
 {Color1} { return textColor(yychar, yylength(), new Color(255, 0, 0)); }
@@ -157,22 +155,22 @@ Metodo1 = {Metodo}
 {Metodo1} { return textColor(yychar, yylength(), new Color(182, 50, 159)); }
 
 {IdentificadorCadena} { return textColor(yychar, yylength(), new Color(255, 50, 233)); }
-{IdentificadorVariable} { return textColor(yychar, yylength(), new Color(0, 0, 0)); }
-{IdentificadorResultado} { return textColor(yychar, yylength(), new Color(0, 0, 0)); }
-{IdentificadorMetodo} { return textColor(yychar, yylength(), new Color(0, 0, 0)); }
+{IdentificadorVariable} { /*Ignorar*/ }
+{IdentificadorResultado} { /*Ignorar*/}
+{IdentificadorMetodo} { /*Ignorar*/ }
 
-{SignoDeAgrupacion} { return textColor(yychar, yylength(), new Color(0, 0, 0)); }
+{SignoDeAgrupacion} { /*Ignorar*/ }
 
-{NumeroEntero} { return textColor(yychar, yylength(), new Color(0, 0, 0)); }
-{NumeroDecimal} { return textColor(yychar, yylength(), new Color(0, 0, 0)); }
+{NumeroEntero} { /*Ignorar*/ }
+{NumeroDecimal} { /*Ignorar*/ }
 
-{OperadorDeAsignacion} { return textColor(yychar, yylength(), new Color(0, 0, 0)); }
+{OperadorDeAsignacion} { /*Ignorar*/ }
 
-{SignoDelimitadorDeSentencia} { return textColor(yychar, yylength(), new Color(0, 0, 0)); }
+{SignoDelimitadorDeSentencia} { /*Ignorar*/ }
 
 {OperadorAritmeticoPositivo} { return textColor(yychar, yylength(), new Color(255, 0, 0)); }
 {OperadorAritmeticoNegativo} { return textColor(yychar, yylength(), new Color(0, 0, 255)); }
 
-{Separador} { return textColor(yychar, yylength(), new Color(0, 0, 0)); }
+{Separador} { /*Ignorar*/ }
 
 . { /*Ignorar*/ }
