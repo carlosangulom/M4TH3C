@@ -183,6 +183,8 @@ Error14 = ({Letra}|{SimboloError}|{CaracterNoValido}){Digito}({Digito})*|
 {Funcion4} { return token(yytext(), "Palabra Reservada", yyline, yycolumn); }
 {Funcion5} { return token(yytext(), "Palabra Reservada", yyline, yycolumn); }
 
+{Funcion1} {lexeme=yytext(); line=yyline; return Funcion1;}
+
 {Dato1} { return token(yytext(), "Palabra Reservada", yyline, yycolumn); }
 {Dato2} { return token(yytext(), "Palabra Reservada", yyline, yycolumn); }
 {Dato3} { return token(yytext(), "Palabra Reservada", yyline, yycolumn); }

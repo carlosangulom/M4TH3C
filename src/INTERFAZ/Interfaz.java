@@ -4,7 +4,7 @@
  */
 package INTERFAZ;
 
-
+import CODIGO.*;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import compilerTools.CodeBlock;
 import javax.swing.UIManager;
@@ -25,10 +25,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
@@ -139,9 +145,10 @@ public class Interfaz extends javax.swing.JFrame {
         fillTableTokens();
         syntacticAnalysis();
         printConsole();
+        mostrarerrores();
         codeHasBeenCompiled = true;
     }
-    
+
     private void lexicalAnalysis(){
        
         try {
@@ -156,16 +163,10 @@ public class Interfaz extends javax.swing.JFrame {
             while (true) {
                 Token token = lexer.yylex();
                 if (token == null) {
-                    tokens.add(token);
-                    PanelSalida.setText("Componente lexico: "+token.getLexicalComp());
-                
                     break;
                     
-                }else{
-                    PanelSalida.setText("Componente lexico: "+token.getLexicalComp());
-                tokens.add(token);
-                PanelSalida.setText("Componente lexico: "+token.getLexicalComp());
                 }
+                tokens.add(token);   
             }
         } catch (FileNotFoundException ex) {
             System.out.println("El archivo no pudo ser encontrado... " + ex.getMessage());
@@ -186,6 +187,44 @@ public class Interfaz extends javax.swing.JFrame {
         tokens.forEach(token -> {
             Object[] data = new Object[]{token.getLexicalComp(), token.getLexeme(), "[Linea " + token.getLine() + ", Columna " + token.getColumn() + "]"};
             Functions.addRowDataInTable(Tokens, data);
+        });
+    }
+    
+    private void mostrarerrores(){
+        String e = "COMPILACION TERMINADA...\n\n";
+        PanelSalida.setText(e);
+        tokens.forEach(token ->{
+            if(token.getLexicalComp().equals("ERROR 0")){
+                PanelSalida.append("----------> "+token.getLexicalComp()+": El caracter no pertenece al alfabeto, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
+            }else if(token.getLexicalComp().equals("ERROR 1")){
+                PanelSalida.append("----------> "+token.getLexicalComp()+": La variable no inicia con una letra, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
+            }else if(token.getLexicalComp().equals("ERROR 2")){
+                PanelSalida.append("----------> "+token.getLexicalComp()+": Un carácter del nombre de la variable no pertenece a un símbolo válido, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
+            }else if(token.getLexicalComp().equals("ERROR 3")){
+                PanelSalida.append("----------> "+token.getLexicalComp()+": Un carácter de la cadena no pertenece a un símbolo válido, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
+            }else if(token.getLexicalComp().equals("ERROR 4")){
+                PanelSalida.append("----------> "+token.getLexicalComp()+": No hay ningún elemento entre ‘ ’, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
+            }else if(token.getLexicalComp().equals("ERROR 5")){
+                PanelSalida.append("----------> "+token.getLexicalComp()+": Falto una ‘ en la cadena, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
+            }else if(token.getLexicalComp().equals("ERROR 6")){
+                PanelSalida.append("----------> "+token.getLexicalComp()+": Un carácter del nombre del resultado no pertenece a un símbolo válido, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
+            }else if(token.getLexicalComp().equals("ERROR 7")){
+                PanelSalida.append("----------> "+token.getLexicalComp()+": No hay por lo menos una letra después de #, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
+            }else if(token.getLexicalComp().equals("ERROR 8")){
+                PanelSalida.append("----------> "+token.getLexicalComp()+": Un carácter del nombre del método no pertenece a un símbolo válido, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
+            }else if(token.getLexicalComp().equals("ERROR 9")){
+                PanelSalida.append("----------> "+token.getLexicalComp()+": No Hay por lo menos una letra después de &, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
+            }else if(token.getLexicalComp().equals("ERROR 10")){
+                PanelSalida.append("----------> "+token.getLexicalComp()+": El número contiene un caracter no valido o cuenta con más de un punto, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
+            }else if(token.getLexicalComp().equals("ERROR 11")){
+                PanelSalida.append("----------> "+token.getLexicalComp()+": No contiene un dígito como mínimo después del punto en el número , Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
+            }else if(token.getLexicalComp().equals("ERROR 12")){
+                PanelSalida.append("----------> "+token.getLexicalComp()+": El número inicia con punto decimal, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
+            }else if(token.getLexicalComp().equals("ERROR 13")){
+                PanelSalida.append("----------> "+token.getLexicalComp()+": El número inicia con punto decimal y tiene más de uno, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
+            }else if(token.getLexicalComp().equals("ERROR 14")){
+                PanelSalida.append("----------> "+token.getLexicalComp()+": El número no inicia con un dígito, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
+            }           
         });
     }
     

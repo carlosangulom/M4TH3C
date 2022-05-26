@@ -227,6 +227,7 @@ Error14 = ({Letra}|{SimboloError}|{CaracterNoValido}){Digito}({Digito})*|
 
 {Separador} { /*Ignorar*/ }
 
+{Error0} { return textColor(yychar, yylength(), new Color(255, 95, 109)); }
 {Error1} { return textColor(yychar, yylength(), new Color(255, 95, 109)); }
 {Error2} { return textColor(yychar, yylength(), new Color(255, 95, 109)); }
 {Error3} { return textColor(yychar, yylength(), new Color(255, 95, 109)); }
