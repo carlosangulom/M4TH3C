@@ -76,10 +76,18 @@ public class Interfaz extends javax.swing.JFrame {
                 System.exit(0);
             }
         });
+        Functions.setLineNumberOnJTextComponent(PanelFuente); //Pone los numeros de linea
         timerKeyReleased = new Timer((int) (1000 * 0.3), (ActionEvent e) -> {
             timerKeyReleased.stop();
+            
+            int posicion = PanelFuente.getCaretPosition();
+            PanelFuente.setText(PanelFuente.getText().replaceAll("[\r]+", ""));
+            PanelFuente.setCaretPosition(posicion);
+            
             colorAnalysis();
+            
         });
+        
         Functions.insertAsteriskInName(this, PanelFuente, () -> {
             timerKeyReleased.restart();
         });
@@ -88,7 +96,7 @@ public class Interfaz extends javax.swing.JFrame {
         textsColor = new ArrayList<>();
         identProd = new ArrayList<>();
         identificadores = new HashMap<>();
-        Functions.setAutocompleterJTextComponent(new String[]{"\n","Sumar('VARIABLES')<\n\n\t      'Variable Resultado'\n\n>;",
+        Functions.setAutocompleterJTextComponent(new String[]{"Sumar('VARIABLES')<\n\n\t      'Variable Resultado'\n\n>;",
             "Restar('VARIABLES')<\n\n\t      'Variable Resultado'\n\n>;","Multiplicar('VARIABLES')<\n\n\t      'Variable Resultado'\n\n>;",
             "Dividir('VARIABLES')<\n\n\t      'Variable Resultado'\n\n>;","Entero 'Nombre Variable' = 'Valor';","Entero 'Nombre Variable';",
             "Decimal 'Nombre Variable' = 'Valor';","Decimal 'Nombre Variable';","Resultado 'Nombre Variable';",
@@ -178,6 +186,12 @@ public class Interfaz extends javax.swing.JFrame {
     private void syntacticAnalysis() {
         Grammar gramatica = new Grammar(tokens, errors);
         
+        /*ELIMINAR ERRORES*/
+        gramatica.delete(new String[]{"ERROR_0","ERROR_1","ERROR_2","ERROR_3","ERROR_4","ERROR_5","ERROR_6",
+                                      "ERROR_7","ERROR_8","ERROR_9","ERROR_10","ERROR_11","ERROR_12","ERROR_13",
+                                      "ERROR_14"},1);
+        
+        gramatica.group("DECLARACION_1", "Palabra_Reservada Identificador_Variable Operador_De_Asignacion Identificador_Cadena Delimitador_De_Sentecia");
         
         /* Mostrar gramáticas */
         gramatica.show();
@@ -194,37 +208,37 @@ public class Interfaz extends javax.swing.JFrame {
         String e = "COMPILACION TERMINADA...\n\n";
         PanelSalida.setText(e);
         tokens.forEach(token ->{
-            if(token.getLexicalComp().equals("ERROR 0")){
+            if(token.getLexicalComp().equals("ERROR_0")){
                 PanelSalida.append("----------> "+token.getLexicalComp()+": El caracter no pertenece al alfabeto, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
-            }else if(token.getLexicalComp().equals("ERROR 1")){
+            }else if(token.getLexicalComp().equals("ERROR_#")){
+                PanelSalida.append("----------> "+token.getLexicalComp()+": Error desconocido, verififque como esta escrito el codigo, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
+            }else if(token.getLexicalComp().equals("ERROR_1")){
                 PanelSalida.append("----------> "+token.getLexicalComp()+": La variable no inicia con una letra, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
-            }else if(token.getLexicalComp().equals("ERROR 2")){
+            }else if(token.getLexicalComp().equals("ERROR_2")){
                 PanelSalida.append("----------> "+token.getLexicalComp()+": Un carácter del nombre de la variable no pertenece a un símbolo válido, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
-            }else if(token.getLexicalComp().equals("ERROR 3")){
+            }else if(token.getLexicalComp().equals("ERROR_3")){
                 PanelSalida.append("----------> "+token.getLexicalComp()+": Un carácter de la cadena no pertenece a un símbolo válido, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
-            }else if(token.getLexicalComp().equals("ERROR 4")){
+            }else if(token.getLexicalComp().equals("ERROR_4")){
                 PanelSalida.append("----------> "+token.getLexicalComp()+": No hay ningún elemento entre ‘ ’, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
-            }else if(token.getLexicalComp().equals("ERROR 5")){
-                PanelSalida.append("----------> "+token.getLexicalComp()+": Falto una ‘ en la cadena, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
-            }else if(token.getLexicalComp().equals("ERROR 6")){
+            }else if(token.getLexicalComp().equals("ERROR_5")){
                 PanelSalida.append("----------> "+token.getLexicalComp()+": Un carácter del nombre del resultado no pertenece a un símbolo válido, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
-            }else if(token.getLexicalComp().equals("ERROR 7")){
+            }else if(token.getLexicalComp().equals("ERROR_6")){
                 PanelSalida.append("----------> "+token.getLexicalComp()+": No hay por lo menos una letra después de #, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
-            }else if(token.getLexicalComp().equals("ERROR 8")){
+            }else if(token.getLexicalComp().equals("ERROR_7")){
                 PanelSalida.append("----------> "+token.getLexicalComp()+": Un carácter del nombre del método no pertenece a un símbolo válido, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
-            }else if(token.getLexicalComp().equals("ERROR 9")){
+            }else if(token.getLexicalComp().equals("ERROR_8")){
                 PanelSalida.append("----------> "+token.getLexicalComp()+": No Hay por lo menos una letra después de &, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
-            }else if(token.getLexicalComp().equals("ERROR 10")){
+            }else if(token.getLexicalComp().equals("ERROR_9")){
                 PanelSalida.append("----------> "+token.getLexicalComp()+": El número contiene un caracter no valido o cuenta con más de un punto, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
-            }else if(token.getLexicalComp().equals("ERROR 11")){
+            }else if(token.getLexicalComp().equals("ERROR_10")){
                 PanelSalida.append("----------> "+token.getLexicalComp()+": No contiene un dígito como mínimo después del punto en el número , Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
-            }else if(token.getLexicalComp().equals("ERROR 12")){
+            }else if(token.getLexicalComp().equals("ERROR_11")){
                 PanelSalida.append("----------> "+token.getLexicalComp()+": El número inicia con punto decimal, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
-            }else if(token.getLexicalComp().equals("ERROR 13")){
+            }else if(token.getLexicalComp().equals("ERROR_12")){
                 PanelSalida.append("----------> "+token.getLexicalComp()+": El número inicia con punto decimal y tiene más de uno, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
-            }else if(token.getLexicalComp().equals("ERROR 14")){
+            }else if(token.getLexicalComp().equals("ERROR_13")){
                 PanelSalida.append("----------> "+token.getLexicalComp()+": El número no inicia con un dígito, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
-            }           
+            }          
         });
     }
     

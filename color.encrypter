@@ -1,16 +1,17 @@
-Metodo &Prueba1 {
+Cadena cad1 = 'El resultado de la suma de';
+Metodo &Prueba1{
 
-	Entero valA = + 30 ;
-	Entero valB = - 10 ;
-	Figura fig1 = Circulo ;
-	Color col1 = Rojo ;
-	Resultado #res1 ;
-	Sumar ( valA , ValB )<
-		#res1 ;
+	Entero valA = + 30;
+	Entero valB = - 10;
+	Figura fig1 = Circulo;
+	Color col1 = Rojo;
+	Resultado #res1;
+	Sumar (valA,ValB)<
+		#res1;
 	>;
 	
-	Cadena cad1 = 'El resultado de la suma de' + valA +'y ' + valB +'es igual a:'+#res1 ;
+	Cadena cad1 = 'El resultado de la suma de';
  
-	Mostrar (cad1 ,#res1 ,fig1 ,col1 ) ;
+	Mostrar (cad1,#res1,fig1,col1);
 
 }
