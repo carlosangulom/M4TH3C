@@ -1,9 +1,10 @@
 Metodo &Prueba1{
-	Entero valA = + 30;
+	Entero valA =  + 30;
 }
+
 Metodo &Prueba1{
 
-	Entero valA = + 30;
+	Decimal valA = + 30.34;
 	Entero valB = - 10;
 	Figura fig1 = Circulo;
 	Color col1 = Rojo;
@@ -14,15 +15,16 @@ Metodo &Prueba1{
 	Dividir (valA,ValB,val,vl2,vl3)<
 		#res1
 	>;
-	Restar (valA,ValB,val,vl2,vl3)<
-		#res1
+	Restar (valA,ValB,val,vl2,vl3) <
+		#SDF
 	>;
-	Multiplicar (valA)<
-		#res1
+	Multiplicar (valA,val2)<
+		#re1
 	>;
 	
 	Cadena cad1;
  
-	Mostrar (cad1,#res1,fig1,col1);
+	Mostrar (cad1,#RE1,fig1,col1);
 
 }
+
