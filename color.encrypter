@@ -1,4 +1,6 @@
-Cadena cad1 = 'El resultado de la suma de';
+Metodo &Prueba1{
+	Entero valA = + 30;
+}
 Metodo &Prueba1{
 
 	Entero valA = + 30;
@@ -6,11 +8,20 @@ Metodo &Prueba1{
 	Figura fig1 = Circulo;
 	Color col1 = Rojo;
 	Resultado #res1;
-	Sumar (valA,ValB)<
-		#res1;
+	Sumar (valA,ValB,val,vl2,vl3)<
+		#res1
+	>;
+	Dividir (valA,ValB,val,vl2,vl3)<
+		#res1
+	>;
+	Restar (valA,ValB,val,vl2,vl3)<
+		#res1
+	>;
+	Multiplicar (valA)<
+		#res1
 	>;
 	
-	Cadena cad1 = 'El resultado de la suma de';
+	Cadena cad1;
  
 	Mostrar (cad1,#res1,fig1,col1);
 

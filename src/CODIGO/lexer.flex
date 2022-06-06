@@ -234,8 +234,8 @@ Error13 = ({Letra}|{SimboloError7}|{CaracterNoValido}){Digito}({Digito})*|
 
 {SignoDelimitadorDeSentencia} { return token(yytext(), "Delimitador_De_Sentencia", yyline, yycolumn); }
 
-{OperadorAritmetico1} { return token(yytext(), "Operador_Aritmetico_+", yyline, yycolumn); }
-{OperadorAritmetico2} { return token(yytext(), "Operador_Aritmetico_-", yyline, yycolumn); }
+{OperadorAritmetico1} { return token(yytext(), "Operador_Aritmetico_Mas", yyline, yycolumn); }
+{OperadorAritmetico2} { return token(yytext(), "Operador_Aritmetico_Menos", yyline, yycolumn); }
 
 {Separador} { return token(yytext(), "Separador", yyline, yycolumn); }
 

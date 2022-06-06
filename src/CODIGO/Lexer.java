@@ -1000,7 +1000,7 @@ class Lexer {
             // fall through
           case 61: break;
           case 8:
-            { return token(yytext(), "Operador_Aritmetico_+", yyline, yycolumn);
+            { return token(yytext(), "Operador_Aritmetico_Mas", yyline, yycolumn);
             }
             // fall through
           case 62: break;
@@ -1010,7 +1010,7 @@ class Lexer {
             // fall through
           case 63: break;
           case 10:
-            { return token(yytext(), "Operador_Aritmetico_-", yyline, yycolumn);
+            { return token(yytext(), "Operador_Aritmetico_Menos", yyline, yycolumn);
             }
             // fall through
           case 64: break;

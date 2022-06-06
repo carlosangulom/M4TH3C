@@ -48,6 +48,7 @@ public class Interfaz extends javax.swing.JFrame {
     private String title;
     private ArrayList<Token> tokens;
     private String[] Errores;
+    private ArrayList<Production> errors2;
     private ArrayList<ErrorLSSL> errors;
     private ArrayList<TextColor> textsColor;
     private Timer timerKeyReleased;
@@ -153,7 +154,6 @@ public class Interfaz extends javax.swing.JFrame {
         fillTableTokens();
         syntacticAnalysis();
         printConsole();
-        mostrarerrores();
         codeHasBeenCompiled = true;
     }
 
@@ -187,58 +187,108 @@ public class Interfaz extends javax.swing.JFrame {
         Grammar gramatica = new Grammar(tokens, errors);
         
         /*ELIMINAR ERRORES*/
-        gramatica.delete(new String[]{"ERROR_0","ERROR_1","ERROR_2","ERROR_3","ERROR_4","ERROR_5","ERROR_6",
-                                      "ERROR_7","ERROR_8","ERROR_9","ERROR_10","ERROR_11","ERROR_12","ERROR_13",
-                                      "ERROR_14"},1);
+        gramatica.delete("ERROR_\\#",1,"----------> ERROR_\\#:  Error desconocido, verififque como esta escrito el codigo, Linea [#] Columna [%]");
+        gramatica.delete("ERROR_0",1,"----------> ERROR_0:  El caracter no pertenece al alfabeto, Linea [#] Columna [%]");
+        gramatica.delete("ERROR_1",1,"----------> ERROR_1:  La variable no inicia con una letra, Linea [#] Columna [%]");
+        gramatica.delete("ERROR_2",1,"----------> ERROR_2:  Un carácter del nombre de la variable no pertenece a un símbolo válido, Linea [#] Columna [%]");
+        gramatica.delete("ERROR_3",1,"----------> ERROR_3:  Un carácter de la cadena no pertenece a un símbolo válido, Linea [#] Columna [%]");
+        gramatica.delete("ERROR_4",1,"----------> ERROR_4:  No hay ningún elemento entre ‘ ’, Linea [#] Columna [%]");
+        gramatica.delete("ERROR_5",1,"----------> ERROR_5:  Un carácter del nombre del resultado no pertenece a un símbolo válido, Linea [#] Columna [%]");
+        gramatica.delete("ERROR_6",1,"----------> ERROR_6:  No hay por lo menos una letra después del \\#, Linea [#] Columna [%]");
+        gramatica.delete("ERROR_7",1,"----------> ERROR_7:  Un carácter del nombre del método no pertenece a un símbolo válido, Linea [#] Columna [%]");
+        gramatica.delete("ERROR_8",1,"----------> ERROR_8:  No Hay por lo menos una letra después de &, Linea [#] Columna [%]");
+        gramatica.delete("ERROR_9",1,"----------> ERROR_9:  El número contiene un caracter no valido o cuenta con más de un punto, Linea [#] Columna [%]");
+        gramatica.delete("ERROR_10",1,"----------> ERROR_10:  No contiene un dígito como mínimo después del punto en el número , Linea [#] Columna [%]");
+        gramatica.delete("ERROR_11",1,"----------> ERROR_11:  El número inicia con punto decimal, Linea [#] Columna [%]");
+        gramatica.delete("ERROR_12",1,"----------> ERROR_12:  El número inicia con punto decimal y tiene más de uno, Linea [#] Columna [%]");
+        gramatica.delete("ERROR_13",1,"----------> ERROR_13:  El número no inicia con un dígito, Linea [#] Columna [%]");
         
-        gramatica.group("DECLARACION_1", "Palabra_Reservada Identificador_Variable Operador_De_Asignacion Identificador_Cadena Delimitador_De_Sentecia");
-        
+        /*VALORES*/
+        gramatica.group("FINAL", "(Delimitador_De_Sentencia)");
+        gramatica.group("OPERADOR", "(Operador_Aritmetico_Mas | Operador_Aritmetico_Menos)");
+        gramatica.group("AGRUPAR_1", "(Signo_De_Agrupacion_1)");
+        gramatica.group("AGRUPAR_2", "(Signo_De_Agrupacion_2)");
+        gramatica.group("AGRUPAR_3", "(Signo_De_Agrupacion_3)");
+        gramatica.group("AGRUPAR_4", "(Signo_De_Agrupacion_4)");
+        gramatica.group("AGRUPAR_5", "(Signo_De_Agrupacion_5)");
+        gramatica.group("AGRUPAR_6", "(Signo_De_Agrupacion_6)");
+        gramatica.group("COMA", "(Separador)");
+        gramatica.group("FUNCION","(Palabra_Reservada_1 | Palabra_Reservada_2 | Palabra_Reservada_3 | Palabra_Reservada_4)");
+        gramatica.group("FUNCION_M","(Palabra_Reservada_5)");
+        gramatica.group("CADENA","(Identificador_Cadena)");
+        gramatica.group("VARIABLE", "(Identificador_Variable)");
+        gramatica.group("RESULTADO", "(Identificador_Resultado)");
+        gramatica.group("VARIABLE_METODO", "(Identificador_Metodo)");
+        gramatica.group("VALOR_NUMEROE", "(Numero_Entero)");
+        gramatica.group("VALOR_NUMEROD", "(Numero_Decimal)");
+        gramatica.group("VALOR_COLOR","(Palabra_Reservada_12 | Palabra_Reservada_13 | Palabra_Reservada_14 | Palabra_Reservada_15 | Palabra_Reservada_16)");
+        gramatica.group("VALOR_FIGURA","(Palabra_Reservada_17 | Palabra_Reservada_18 | Palabra_Reservada_19 | Palabra_Reservada_20 | Palabra_Reservada_21)");
+        gramatica.group("VALOR_CADENA","(Identificador_Cadena)");
+        gramatica.group("PE","(Palabra_Reservada_6)");
+        gramatica.group("PD","(Palabra_Reservada_7)");
+        gramatica.group("PR","(Palabra_Reservada_8)");
+        gramatica.group("PC","(Palabra_Reservada_9)");
+        gramatica.group("PF","(Palabra_Reservada_10)");
+        gramatica.group("PCO","(Palabra_Reservada_11)");
+        gramatica.group("ASIGNAR", "(Operador_De_Asignacion)");
+        gramatica.group("PM", "(Palabra_Reservada_22)");
+        /*DECLARACION ENTERO*/
+        gramatica.group("DECLARACION_ENTERO_1","(PE)(VARIABLE)(ASIGNAR)(OPERADOR)(VALOR_NUMEROE)(FINAL)");
+        gramatica.group("DECLARACION_ENTERO_2","(PE)(VARIABLE)(FINAL)");
+        /*DECLARACION DECIMAL*/
+        gramatica.group("DECLARACION_DECIMAL_1","(PD)(VARIABLE)(ASIGNAR)(OPERADOR)(VALOR_NUMEROD)(FINAL)");
+        gramatica.group("DECLARACION_DECIMAL_2","(PD)(VARIABLE)(FINAL)");
+        /*DECLARACION RESULTADO*/
+        gramatica.group("DECLARACION_RESULTADO", "(PR)(RESULTADO)(FINAL)");
+        /*DECLARACION CADENA*/
+        gramatica.group("DECLARACION_CADENA_1", "(PC)(VARIABLE)(ASIGNAR)(CADENA)(FINAL)");
+        gramatica.group("DECLARACION_CADENA_2", "(PC)(VARIABLE)(FINAL)");
+        /*DECLARACION FIGURA*/
+        gramatica.group("DECLARACION_FIGURA_1", "(PF)(VARIABLE)(ASIGNAR)(VALOR_FIGURA)(FINAL)");
+        gramatica.group("DECLARACION_FIGURA_2", "(PF)(VARIABLE)(FINAL)");
+        /*DECLARACION COLOR*/
+        gramatica.group("DECLARACION_COLOR_1", "(PCO)(VARIABLE)(ASIGNAR)(VALOR_COLOR)(FINAL)");
+        gramatica.group("DECLARACION_COLOR_2", "(PCO)(VARIABLE)(FINAL)");
+        /*ASIGNACION ENTERO*/
+        gramatica.group("ASIGNACION_ENTERO","(VARIABLE)(ASIGNAR)(OPERADOR)(VALOR_NUMEROE)(FINAL)");
+        /*ASIGNACION DECIMAL*/
+        gramatica.group("ASIGNACION_DECIMAL","(VARIABLE)(ASIGNAR)(OPERADOR)(VALOR_NUMEROD)(FINAL)");
+        /*ASIGNACION CADENA*/
+        gramatica.group("ASIGNACION_CADENA","(VARIABLE)(ASIGNAR)(CADENA)(FINAL)");
+        /*ASIGNACION FIGURA*/
+        gramatica.group("ASIGNACION_FIGURA","(VARIABLE)(ASIGNAR)(VALOR_FIGURA)(FINAL)");
+        /*ASIGNACION COLOR*/
+        gramatica.group("ASIGNACION_COLOR","(VARIABLE)(ASIGNAR)(VALOR_COLOR)(FINAL)");
+        /*FUNCIONES OPERACIONES*/
+        gramatica.group("FUNCION_COMPLETA_5", "(FUNCION)(AGRUPAR_1)((VARIABLE)(COMA)(VARIABLE)(COMA)(VARIABLE)(COMA)(VARIABLE)(COMA)(VARIABLE))?(AGRUPAR_2)(AGRUPAR_3)(RESULTADO)(AGRUPAR_4)(FINAL)");
+        gramatica.group("FUNCION_COMPLETA_4", "(FUNCION)(AGRUPAR_1)((VARIABLE)(COMA)(VARIABLE)(COMA)(VARIABLE)(COMA)(VARIABLE))?(AGRUPAR_2)(AGRUPAR_3)(RESULTADO)(AGRUPAR_4)(FINAL)");
+        gramatica.group("FUNCION_COMPLETA_3", "(FUNCION)(AGRUPAR_1)((VARIABLE)(COMA)(VARIABLE)(COMA)(VARIABLE))?(AGRUPAR_2)(AGRUPAR_3)(RESULTADO)(AGRUPAR_4)(FINAL)");
+        gramatica.group("FUNCION_COMPLETA_2", "(FUNCION)(AGRUPAR_1)((VARIABLE)(COMA)(VARIABLE))?(AGRUPAR_2)(AGRUPAR_3)(RESULTADO)(AGRUPAR_4)(FINAL)");
+        gramatica.group("FUNCION_COMPLETA_1", "(FUNCION)(AGRUPAR_1)((VARIABLE))?(AGRUPAR_2)(AGRUPAR_3)(RESULTADO)(AGRUPAR_4)(FINAL)");
+        /*FUNCION MOSTRAR*/
+        gramatica.group("FUNCION_COMPLETA_6","(FUNCION_M)(AGRUPAR_1)((VARIABLE)(COMA)(RESULTADO)"
+                      + "(COMA)(VARIABLE)(COMA)(VARIABLE)(COMA)(VARIABLE)(COMA)(VARIABLE)(COMA)(VARIABLE)"
+                      + "(COMA)(VARIABLE)(COMA)(VARIABLE)(COMA)(VARIABLE)(COMA)(VARIABLE)(COMA)(VARIABLE))(AGRUPAR_2)(FINAL)");
+        gramatica.group("FUNCION_COMPLETA_7","(FUNCION_M)(AGRUPAR_1)((VARIABLE)(COMA)(RESULTADO)"
+                      + "(COMA)(VARIABLE)(COMA)(VARIABLE))(AGRUPAR_2)(FINAL)");
+        /*CLASE*/
+        gramatica.loopForFunExecUntilChangeNotDetected(() ->{
+            gramatica.group("METODO", "(PM)(VARIABLE_METODO)(AGRUPAR_5)(DECLARACION_ENTERO_1 | DECLARACION_ENTERO_2 | "
+                          + "DECLARACION_DECIMAL_1 | DECLARACION_DECIMAL_2 | DECLARACION_RESULTADO | DECLARACION_CADENA_1 | "
+                          + "DECLARACION_CADENA_2 | DECLARACION_FIGURA_1 | DECLARACION_FIGURA_2 | DECLARACION_COLOR_1 | "
+                          + "DECLARACION_COLOR_2 | ASIGNACION_ENTERO | ASIGNACION_DECIMAL | ASIGNACION_CADENA | ASIGNACION_FIGURA | "
+                          + "ASIGNACION_COLOR | FUNCION_COMPLETA_1 | FUNCION_COMPLETA_2 | FUNCION_COMPLETA_3 | FUNCION_COMPLETA_4 | "
+                          + "FUNCION_COMPLETA_5 | FUNCION_COMPLETA_6 | FUNCION_COMPLETA_7)(AGRUPAR_6)");
+        });
         /* Mostrar gramáticas */
         gramatica.show();
+        
     }
     
     private void fillTableTokens(){
         tokens.forEach(token -> {
             Object[] data = new Object[]{token.getLexicalComp(), token.getLexeme(), "[Linea " + token.getLine() + ", Columna " + token.getColumn() + "]"};
             Functions.addRowDataInTable(Tokens, data);
-        });
-    }
-    
-    private void mostrarerrores(){
-        String e = "COMPILACION TERMINADA...\n\n";
-        PanelSalida.setText(e);
-        tokens.forEach(token ->{
-            if(token.getLexicalComp().equals("ERROR_0")){
-                PanelSalida.append("----------> "+token.getLexicalComp()+": El caracter no pertenece al alfabeto, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
-            }else if(token.getLexicalComp().equals("ERROR_#")){
-                PanelSalida.append("----------> "+token.getLexicalComp()+": Error desconocido, verififque como esta escrito el codigo, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
-            }else if(token.getLexicalComp().equals("ERROR_1")){
-                PanelSalida.append("----------> "+token.getLexicalComp()+": La variable no inicia con una letra, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
-            }else if(token.getLexicalComp().equals("ERROR_2")){
-                PanelSalida.append("----------> "+token.getLexicalComp()+": Un carácter del nombre de la variable no pertenece a un símbolo válido, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
-            }else if(token.getLexicalComp().equals("ERROR_3")){
-                PanelSalida.append("----------> "+token.getLexicalComp()+": Un carácter de la cadena no pertenece a un símbolo válido, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
-            }else if(token.getLexicalComp().equals("ERROR_4")){
-                PanelSalida.append("----------> "+token.getLexicalComp()+": No hay ningún elemento entre ‘ ’, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
-            }else if(token.getLexicalComp().equals("ERROR_5")){
-                PanelSalida.append("----------> "+token.getLexicalComp()+": Un carácter del nombre del resultado no pertenece a un símbolo válido, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
-            }else if(token.getLexicalComp().equals("ERROR_6")){
-                PanelSalida.append("----------> "+token.getLexicalComp()+": No hay por lo menos una letra después de #, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
-            }else if(token.getLexicalComp().equals("ERROR_7")){
-                PanelSalida.append("----------> "+token.getLexicalComp()+": Un carácter del nombre del método no pertenece a un símbolo válido, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
-            }else if(token.getLexicalComp().equals("ERROR_8")){
-                PanelSalida.append("----------> "+token.getLexicalComp()+": No Hay por lo menos una letra después de &, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
-            }else if(token.getLexicalComp().equals("ERROR_9")){
-                PanelSalida.append("----------> "+token.getLexicalComp()+": El número contiene un caracter no valido o cuenta con más de un punto, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
-            }else if(token.getLexicalComp().equals("ERROR_10")){
-                PanelSalida.append("----------> "+token.getLexicalComp()+": No contiene un dígito como mínimo después del punto en el número , Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
-            }else if(token.getLexicalComp().equals("ERROR_11")){
-                PanelSalida.append("----------> "+token.getLexicalComp()+": El número inicia con punto decimal, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
-            }else if(token.getLexicalComp().equals("ERROR_12")){
-                PanelSalida.append("----------> "+token.getLexicalComp()+": El número inicia con punto decimal y tiene más de uno, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
-            }else if(token.getLexicalComp().equals("ERROR_13")){
-                PanelSalida.append("----------> "+token.getLexicalComp()+": El número no inicia con un dígito, Linea ["+token.getLine()+"] Columna ["+token.getColumn()+"]\n");
-            }          
         });
     }
     
@@ -251,9 +301,9 @@ public class Interfaz extends javax.swing.JFrame {
                 String strError = String.valueOf(error);
                 strErrors += strError + "\n";
             }
-            PanelSalida.setText("Compilación terminada...\n" + strErrors + "\nLa compilación terminó con errores...");
+            PanelSalida.setText("Compilación terminada...\n\n\t" + strErrors + "\n\nLa compilación terminó con errores...");
         } else {
-            PanelSalida.setText("Compilación terminada...\n");
+            PanelSalida.setText("Compilación terminada...\n\nLa compilacion termino sin errores...");
         }
         PanelSalida.setCaretPosition(0);
     }
