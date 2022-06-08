@@ -9132,6 +9132,7 @@ public class Interfaz extends javax.swing.JFrame {
         jToolBar1.add(jButton4);
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGENES/analisis lexico select.png"))); // NOI18N
+        jButton5.setEnabled(false);
         jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -9260,7 +9261,12 @@ public class Interfaz extends javax.swing.JFrame {
 
         jMenu2.setText("Compilar");
 
-        jMenuItem8.setText("Analisis Lexico");
+        jMenuItem8.setText("Analisis Lexico y Sintactico");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem8);
         jMenu2.add(jSeparator4);
 
@@ -9362,6 +9368,16 @@ public class Interfaz extends javax.swing.JFrame {
             clearFields();
         }
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        if (getTitle().contains("*") || getTitle().equals(title)) {
+            if(directorio.Save()){
+                compilar();
+            }
+        } else {
+            compilar();
+        }
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     /**
      * @param args the command line arguments
